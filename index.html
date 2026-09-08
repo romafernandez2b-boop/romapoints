@@ -3,494 +3,918 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Roma Points ♡</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: "Trebuchet MS", Arial, sans-serif;
-
-            background:
-                radial-gradient(circle at 10% 10%, #ffd6ec 0%, transparent 25%),
-                radial-gradient(circle at 90% 20%, #dcd0ff 0%, transparent 25%),
-                radial-gradient(circle at 20% 90%, #ccecff 0%, transparent 20%),
-                #fff4fb;
-
-            color: #59415f;
-            overflow-x: hidden;
-        }
-
-        .sticker {
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-            user-select: none;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .star1 {
-            top: 8%;
-            left: 6%;
-            font-size: 32px;
-        }
-
-        .star2 {
-            top: 25%;
-            right: 7%;
-            font-size: 24px;
-            animation-delay: 1s;
-        }
-
-        .heart1 {
-            bottom: 15%;
-            left: 7%;
-            font-size: 28px;
-            animation-delay: 2s;
-        }
-
-        .heart2 {
-            top: 55%;
-            right: 6%;
-            font-size: 20px;
-            animation-delay: 1.5s;
-        }
-
-        .bow {
-            top: 12%;
-            right: 15%;
-            font-size: 28px;
-            animation-delay: .5s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(-5deg);
-            }
-
-            50% {
-                transform: translateY(-8px) rotate(5deg);
-            }
-        }
-
-        .game-screen {
-            position: relative;
-            z-index: 1;
-
-            width: min(1000px, 92%);
-            margin: 35px auto;
-            padding: 35px;
-
-            background: rgba(255,255,255,.88);
-
-            border: 3px solid #f3a6cc;
-            border-radius: 30px;
-
-            box-shadow:
-                0 0 0 6px rgba(255,255,255,.8),
-                0 15px 40px rgba(173,108,160,.18);
-        }
-
-        .header {
-            text-align: center;
-        }
-
-        .tiny-title {
-            font-size: 12px;
-            letter-spacing: 4px;
-            color: #b37aa2;
-        }
-
-        h1 {
-            margin: 8px 0;
-            font-size: clamp(30px,6vw,55px);
-            color: #d65c9b;
-
-            text-shadow:
-                2px 2px 0 white,
-                4px 4px 0 #f5bddb;
-        }
-
-        .subtitle {
-            color: #8b6687;
-            font-size: 15px;
-        }
-
-        .sparkles {
-            color: #d990bd;
-            letter-spacing: 8px;
-            margin: 15px 0;
-        }
-
-        .player-card {
-            margin: 30px auto;
-            max-width: 500px;
-            padding: 25px;
-
-            text-align: center;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffffff,
-                    #fff0f8
-                );
-
-            border: 2px solid #f1afd0;
-            border-radius: 22px;
-
-            box-shadow:
-                inset 0 0 20px rgba(235,155,197,.12),
-                0 8px 20px rgba(180,110,160,.12);
-        }
-
-        .player-name {
-            font-size: 13px;
-            letter-spacing: 3px;
-            color: #a26f93;
-        }
-
-        .points {
-            margin: 8px 0;
-            font-size: 65px;
-            font-weight: bold;
-            color: #db5797;
-
-            text-shadow:
-                2px 3px 0 #f7c8df;
-        }
-
-        .points-label {
-            font-size: 15px;
-            letter-spacing: 2px;
-            color: #8d6685;
-        }
-
-        .available {
-            margin-top: 8px;
-            font-size: 11px;
-            color: #b3839f;
-        }
-
-        .menu {
-            display: grid;
-            grid-template-columns:
-                repeat(auto-fit,minmax(180px,1fr));
-
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .menu-button {
-            display: block;
-            padding: 17px;
-
-            text-align: center;
-            text-decoration: none;
-
-            color: #704b69;
-            font-weight: bold;
-
-            background: white;
-
-            border: 2px solid #efb2d0;
-            border-radius: 18px;
-
-            box-shadow: 0 5px 0 #e3a0c2;
-
-            transition: .15s;
-        }
-
-        .menu-button:hover {
-            transform: translateY(-3px);
-            background: #fff7fc;
-            box-shadow: 0 8px 0 #e3a0c2;
-        }
-
-        .section-title {
-            margin-top: 55px;
-            margin-bottom: 20px;
-
-            text-align: center;
-
-            font-size: 20px;
-            color: #ca6399;
-            letter-spacing: 2px;
-        }
-
-        .reward-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(auto-fit,minmax(230px,1fr));
-
-            gap: 25px;
-        }
-
-        .reward-card {
-            position: relative;
-
-            padding: 25px;
-            min-height: 310px;
-
-            text-align: center;
-
-            background: white;
-
-            border: 3px solid #f0afd0;
-            border-radius: 25px;
-
-            box-shadow:
-                0 8px 0 #e7b0cc,
-                0 15px 25px rgba(170,100,150,.12);
-
-            transition: .2s;
-            overflow: hidden;
-        }
-
-        .reward-card:hover {
-            transform:
-                translateY(-8px)
-                rotate(-1deg);
-        }
-
-        .card-sticker {
-            position: absolute;
-            font-size: 25px;
-        }
-
-        .sticker-left {
-            top: 12px;
-            left: 12px;
-        }
-
-        .sticker-right {
-            top: 10px;
-            right: 12px;
-        }
-
-        .reward-icon {
-            margin-top: 15px;
-            font-size: 60px;
-        }
-
-        .reward-card h3 {
-            margin: 12px 0 5px;
-            color: #cc5d96;
-            font-size: 21px;
-        }
-
-        .reward-description {
-            min-height: 50px;
-
-            font-size: 14px;
-            line-height: 1.5;
-            color: #76586f;
-        }
-
-        .reward-cost {
-            margin: 15px;
-            font-size: 21px;
-            font-weight: bold;
-            color: #d85596;
-        }
-
-        .redeem-button {
-            border: none;
-
-            padding: 12px 25px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            border-radius: 25px;
+<title>ROMA POINTS // SYSTEM 01</title>
 
-            background: #e889ae;
-            color: white;
+<style>
 
-            font-weight: bold;
+/* =====================================================
+   ROMA POINTS // RETRO GAME SYSTEM
+   ===================================================== */
 
-            cursor: pointer;
+* {
+    box-sizing: border-box;
+}
 
-            box-shadow: 0 4px 0 #c96f98;
+html {
+    scroll-behavior: smooth;
+}
 
-            transition: .15s;
-        }
+body {
 
-        .redeem-button:hover {
-            transform: translateY(-2px);
-            background: #d96b9b;
-        }
+    margin: 0;
+    min-height: 100vh;
 
-        .locked {
-            background:
-                repeating-linear-gradient(
-                    45deg,
-                    #fff8fc,
-                    #fff8fc 10px,
-                    #fdf0f8 10px,
-                    #fdf0f8 20px
-                );
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
 
-            opacity: .8;
-        }
+    background:
+        radial-gradient(
+            circle at center,
+            #24303b 0%,
+            #111820 45%,
+            #080c10 100%
+        );
 
-        .locked .reward-icon {
-            filter: grayscale(1);
-            opacity: .6;
-        }
+    color: #d8e3e8;
 
-        .lock {
-            display: inline-block;
+    overflow-x: hidden;
+}
 
-            margin-top: 8px;
-            padding: 7px 13px;
 
-            background: #eee0ea;
-            color: #94758c;
+/* =====================================================
+   CRT EFFECT
+   ===================================================== */
 
-            border-radius: 20px;
+body::before {
 
-            font-size: 12px;
-            font-weight: bold;
-        }
+    content: "";
 
-        .points-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    position: fixed;
 
-        .point-entry {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+    inset: 0;
 
-            padding: 15px 18px;
+    pointer-events: none;
 
-            background: white;
+    z-index: 999;
 
-            border: 1px solid #f0c3da;
-            border-radius: 15px;
-        }
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,.025),
+            rgba(255,255,255,.025) 1px,
+            transparent 1px,
+            transparent 4px
+        );
 
-        .point-number {
-            min-width: 65px;
-            font-weight: bold;
-            color: #d85a96;
-        }
+    opacity: .35;
+}
 
-        .point-reason {
-            font-size: 14px;
-            color: #74576f;
-        }
 
-        footer {
-            margin-top: 45px;
+/* =====================================================
+   BACKGROUND PIXELS
+   ===================================================== */
 
-            text-align: center;
+.pixel {
 
-            font-size: 12px;
-            color: #b48ca7;
+    position: fixed;
 
-            letter-spacing: 1px;
-        }
+    z-index: 0;
 
-        /* POPUP */
+    pointer-events: none;
 
-        .popup {
-            display: none;
+    color: #55d6be;
 
-            position: fixed;
-            z-index: 100;
+    text-shadow:
+        0 0 8px #55d6be;
 
-            top: 50%;
-            left: 50%;
+    animation: blink 2s infinite;
 
-            transform: translate(-50%, -50%);
+}
 
-            width: min(420px, 85%);
+.pixel.one {
+    top: 8%;
+    left: 5%;
+}
 
-            padding: 30px;
+.pixel.two {
+    top: 18%;
+    right: 8%;
+    color: #7aa7ff;
+    animation-delay: .5s;
+}
 
-            text-align: center;
+.pixel.three {
+    bottom: 15%;
+    left: 9%;
+    color: #d58cff;
+    animation-delay: 1s;
+}
 
-            background: white;
+.pixel.four {
+    bottom: 25%;
+    right: 5%;
+    color: #55d6be;
+    animation-delay: 1.5s;
+}
 
-            border: 3px solid #ee9fc6;
-            border-radius: 25px;
+@keyframes blink {
 
-            box-shadow: 0 20px 60px rgba(100,50,100,.25);
-        }
+    0%,100% {
+        opacity: .25;
+    }
 
-        .popup.show {
-            display: block;
-            animation: pop .25s ease;
-        }
+    50% {
+        opacity: 1;
+    }
 
-        @keyframes pop {
-            from {
-                transform: translate(-50%, -50%) scale(.8);
-                opacity: 0;
-            }
+}
 
-            to {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-        }
 
-        .popup h2 {
-            color: #d65c9b;
-        }
+/* =====================================================
+   MAIN GAME WINDOW
+   ===================================================== */
 
-        .popup p {
-            color: #76586f;
-        }
+.game-window {
 
-        .close-popup {
-            border: none;
+    position: relative;
 
-            padding: 10px 25px;
+    z-index: 1;
 
-            border-radius: 20px;
+    width: min(1100px, 94%);
 
-            background: #e889ae;
-            color: white;
+    margin: 30px auto;
 
-            font-weight: bold;
-            cursor: pointer;
-        }
+    background: #151d24;
 
-        .success {
-            font-size: 50px;
-        }
+    border: 2px solid #65747d;
 
-        @media(max-width:600px) {
+    box-shadow:
+        0 0 0 1px #050708,
+        0 0 30px rgba(0,0,0,.7);
 
-            .game-screen {
-                padding: 22px;
-                margin: 20px auto;
-            }
+}
 
-            .points {
-                font-size: 52px;
-            }
 
-            .reward-grid {
-                grid-template-columns: 1fr;
-            }
+/* =====================================================
+   TOP BAR
+   ===================================================== */
 
-            .point-entry {
-                align-items: flex-start;
-            }
-        }
+.top-bar {
 
-    </style>
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 9px 14px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #34434e,
+            #202a31
+        );
+
+    border-bottom: 2px solid #090c0f;
+
+    font-size: 12px;
+
+    letter-spacing: 1px;
+
+}
+
+.system-name {
+
+    color: #e5edf1;
+
+    font-weight: bold;
+
+}
+
+.system-status {
+
+    color: #55d6be;
+
+    text-shadow:
+        0 0 8px #55d6be;
+
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.header {
+
+    padding: 40px 30px 25px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #1b252d,
+            #11181e
+        );
+
+    border-bottom: 1px solid #39464e;
+
+}
+
+.logo {
+
+    font-size: clamp(25px, 5vw, 50px);
+
+    font-weight: bold;
+
+    letter-spacing: 5px;
+
+    color: #55d6be;
+
+    text-shadow:
+        0 0 5px #55d6be,
+        0 0 15px rgba(85,214,190,.45);
+
+}
+
+.logo-sub {
+
+    margin-top: 12px;
+
+    color: #84949e;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+}
+
+
+/* =====================================================
+   PLAYER STATUS
+   ===================================================== */
+
+.player-panel {
+
+    width: min(650px, 90%);
+
+    margin: 25px auto;
+
+    padding: 22px;
+
+    background: #0d1318;
+
+    border: 1px solid #46545d;
+
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,.5);
+
+}
+
+.player-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px dashed #46545d;
+
+    font-size: 12px;
+
+}
+
+.player-id {
+
+    color: #7aa7ff;
+
+}
+
+.player-online {
+
+    color: #55d6be;
+
+}
+
+.balance-title {
+
+    margin-top: 20px;
+
+    color: #84949e;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+}
+
+.balance {
+
+    margin: 4px 0;
+
+    font-size: clamp(45px, 8vw, 70px);
+
+    font-weight: bold;
+
+    color: #55d6be;
+
+    text-shadow:
+        0 0 8px #55d6be,
+        0 0 20px rgba(85,214,190,.3);
+
+}
+
+.balance-label {
+
+    color: #84949e;
+
+    font-size: 11px;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+   ===================================================== */
+
+.navigation {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(170px, 1fr));
+
+    gap: 8px;
+
+    padding: 15px;
+
+    background: #0d1318;
+
+    border-top: 1px solid #39464e;
+
+    border-bottom: 1px solid #39464e;
+
+}
+
+.nav-button {
+
+    display: block;
+
+    padding: 13px;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    color: #cbd5da;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #303c45,
+            #202930
+        );
+
+    border: 1px solid #596770;
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.08);
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    transition: .15s;
+
+}
+
+.nav-button:hover {
+
+    color: #55d6be;
+
+    border-color: #55d6be;
+
+    text-shadow:
+        0 0 8px #55d6be;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =====================================================
+   CONTENT
+   ===================================================== */
+
+.content {
+
+    padding: 30px;
+
+}
+
+.section-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 35px 0 18px;
+
+    color: #7aa7ff;
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+
+}
+
+.section-title::before {
+
+    content: ">";
+
+    color: #55d6be;
+
+}
+
+.section-title::after {
+
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background: #34424b;
+
+}
+
+
+/* =====================================================
+   REWARD GRID
+   ===================================================== */
+
+.reward-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 15px;
+
+}
+
+
+/* =====================================================
+   REWARD CARDS
+   ===================================================== */
+
+.reward-card {
+
+    position: relative;
+
+    min-height: 320px;
+
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #202a32,
+            #11171c
+        );
+
+    border: 1px solid #56646d;
+
+    box-shadow:
+        inset 0 0 15px rgba(0,0,0,.4);
+
+    transition: .2s;
+
+}
+
+.reward-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: #55d6be;
+
+    box-shadow:
+        0 0 15px rgba(85,214,190,.18),
+        inset 0 0 15px rgba(0,0,0,.4);
+
+}
+
+.card-code {
+
+    position: absolute;
+
+    top: 10px;
+
+    right: 12px;
+
+    color: #596871;
+
+    font-size: 9px;
+
+}
+
+.reward-icon {
+
+    margin: 20px 0;
+
+    text-align: center;
+
+    font-size: 55px;
+
+    filter:
+        drop-shadow(0 0 5px rgba(255,255,255,.15));
+
+}
+
+.reward-card h3 {
+
+    min-height: 45px;
+
+    margin: 10px 0;
+
+    color: #dce6ea;
+
+    font-size: 17px;
+
+}
+
+.reward-description {
+
+    min-height: 60px;
+
+    color: #87969f;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+}
+
+.reward-cost {
+
+    margin: 15px 0;
+
+    color: #55d6be;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+}
+
+.redeem-button {
+
+    width: 100%;
+
+    padding: 11px;
+
+    border: 1px solid #55d6be;
+
+    background: #172923;
+
+    color: #55d6be;
+
+    font-family: inherit;
+
+    font-weight: bold;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition: .15s;
+
+}
+
+.redeem-button:hover {
+
+    background: #55d6be;
+
+    color: #07100e;
+
+    box-shadow:
+        0 0 12px rgba(85,214,190,.5);
+
+}
+
+
+/* =====================================================
+   LOCKED
+   ===================================================== */
+
+.locked {
+
+    opacity: .55;
+
+}
+
+.locked:hover {
+
+    transform: none;
+
+    border-color: #56646d;
+
+    box-shadow:
+        inset 0 0 15px rgba(0,0,0,.4);
+
+}
+
+.locked .reward-icon {
+
+    filter:
+        grayscale(1)
+        brightness(.6);
+
+}
+
+.lock-label {
+
+    display: block;
+
+    padding: 10px;
+
+    text-align: center;
+
+    color: #78858d;
+
+    background: #151b20;
+
+    border: 1px dashed #49555c;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+}
+
+
+/* =====================================================
+   POINT LOG
+   ===================================================== */
+
+.point-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+.point-entry {
+
+    display: grid;
+
+    grid-template-columns: 80px 1fr;
+
+    gap: 15px;
+
+    padding: 13px 15px;
+
+    background: #11181d;
+
+    border: 1px solid #37434b;
+
+    font-size: 12px;
+
+}
+
+.point-number {
+
+    color: #55d6be;
+
+    font-weight: bold;
+
+}
+
+.point-reason {
+
+    color: #9ba8af;
+
+}
+
+
+/* =====================================================
+   SYSTEM INFO
+   ===================================================== */
+
+.system-info {
+
+    margin-top: 35px;
+
+    padding: 15px;
+
+    background: #0c1216;
+
+    border: 1px solid #303c44;
+
+    color: #66757e;
+
+    font-size: 10px;
+
+    line-height: 1.8;
+
+}
+
+.system-info span {
+
+    color: #55d6be;
+
+}
+
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+
+footer {
+
+    padding: 20px;
+
+    text-align: center;
+
+    color: #56646d;
+
+    border-top: 1px solid #303c44;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+}
+
+
+/* =====================================================
+   POPUP
+   ===================================================== */
+
+.popup-overlay {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    background: rgba(0,0,0,.75);
+
+}
+
+.popup-overlay.show {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+.popup {
+
+    width: min(430px, 90%);
+
+    padding: 30px;
+
+    text-align: center;
+
+    background: #151e25;
+
+    border: 2px solid #55d6be;
+
+    box-shadow:
+        0 0 30px rgba(85,214,190,.25);
+
+}
+
+.popup-icon {
+
+    font-size: 50px;
+
+    margin-bottom: 10px;
+
+}
+
+.popup h2 {
+
+    color: #55d6be;
+
+    font-size: 20px;
+
+    letter-spacing: 2px;
+
+}
+
+.popup p {
+
+    color: #9ba8af;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+}
+
+.close-popup {
+
+    margin-top: 10px;
+
+    padding: 11px 30px;
+
+    border: 1px solid #55d6be;
+
+    background: #172923;
+
+    color: #55d6be;
+
+    font-family: inherit;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+.close-popup:hover {
+
+    background: #55d6be;
+
+    color: #07100e;
+
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media(max-width:600px) {
+
+    .game-window {
+
+        width: 96%;
+
+        margin: 12px auto;
+
+    }
+
+    .header {
+
+        padding: 30px 15px 20px;
+
+    }
+
+    .content {
+
+        padding: 18px;
+
+    }
+
+    .player-panel {
+
+        width: 100%;
+
+    }
+
+    .reward-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+/* =====================================================
+   END
+   ===================================================== */
+
+</style>
 
 </head>
 
@@ -498,91 +922,141 @@
 <body>
 
 
-    <!-- FLOATING STICKERS -->
+<!-- BACKGROUND PIXELS -->
 
-    <div class="sticker star1">✦</div>
-    <div class="sticker star2">✧</div>
-    <div class="sticker heart1">♡</div>
-    <div class="sticker heart2">♥</div>
-    <div class="sticker bow">🎀</div>
-
-
-    <main class="game-screen">
+<div class="pixel one">◆</div>
+<div class="pixel two">◆</div>
+<div class="pixel three">◆</div>
+<div class="pixel four">◆</div>
 
 
-        <!-- HEADER -->
+<main class="game-window">
 
-        <header class="header">
 
-            <div class="tiny-title">
-                ROMA POINTS SYSTEM
+    <!-- TOP BAR -->
+
+    <div class="top-bar">
+
+        <div class="system-name">
+            ROMA POINTS // SYSTEM 01
+        </div>
+
+        <div class="system-status">
+            ● SYSTEM ONLINE
+        </div>
+
+    </div>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+            PLAYER DATABASE
+        </div>
+
+        <div class="logo-sub">
+            ROMA REWARD MANAGEMENT SYSTEM // BUILD 2004.09
+        </div>
+
+    </header>
+
+
+    <!-- PLAYER STATUS -->
+
+    <section class="player-panel">
+
+        <div class="player-header">
+
+            <div class="player-id">
+                PLAYER 01 // TOMI
             </div>
 
-            <h1>
-                ♡ Welcome, Player 01 ♡
-            </h1>
-
-            <div class="sparkles">
-                ✦ ✧ ✦ ✧ ✦
+            <div class="player-online">
+                STATUS: ONLINE
             </div>
 
-            <p class="subtitle">
-                Your little reward world awaits...
-            </p>
-
-        </header>
+        </div>
 
 
-        <!-- PLAYER -->
+        <div class="balance-title">
+            CURRENT BALANCE
+        </div>
 
-        <section class="player-card">
+        <div class="balance">
+            <span id="points">50</span>
+            RP
+        </div>
 
-            <div class="player-name">
-                PLAYER 01 · TOMI
-            </div>
+        <div class="balance-label">
+            ROMA POINTS // AVAILABLE TO REDEEM
+        </div>
 
-            <div class="points">
-                ⭐ <span id="points">50</span>
-            </div>
-
-            <div class="points-label">
-                ROMA POINTS
-            </div>
-
-            <div class="available">
-                AVAILABLE TO REDEEM
-            </div>
-
-        </section>
+    </section>
 
 
-        <!-- MENU -->
+    <!-- NAVIGATION -->
 
-        <nav class="menu">
+    <nav class="navigation">
 
-            <a href="#shop" class="menu-button">
-                🎁 Reward Shop
-            </a>
+        <a href="#status" class="nav-button">
+            [ STATUS ]
+        </a>
 
-            <a href="#cards" class="menu-button">
-                🎟️ My Cards
-            </a>
+        <a href="#cards" class="nav-button">
+            [ INVENTORY ]
+        </a>
 
-            <a href="#special" class="menu-button">
-                💌 Special
-            </a>
+        <a href="#shop" class="nav-button">
+            [ REWARD SHOP ]
+        </a>
 
-            <a href="#history" class="menu-button">
-                📜 History
-            </a>
+        <a href="#history" class="nav-button">
+            [ QUEST LOG ]
+        </a>
 
-        </nav>
+    </nav>
+
+
+    <div class="content">
+
+
+        <!-- STATUS -->
+
+        <h2 class="section-title" id="status">
+            PLAYER STATUS
+        </h2>
+
+
+        <div class="system-info">
+
+            PLAYER ID:
+            <span>TOMI_01</span>
+            <br>
+
+            ACCOUNT STATUS:
+            <span>ACTIVE</span>
+            <br>
+
+            REWARD SYSTEM:
+            <span>ONLINE</span>
+            <br>
+
+            CURRENT RP:
+            <span id="statusPoints">50</span>
+            <br>
+
+            SYSTEM MESSAGE:
+            <span>WELCOME BACK, PLAYER.</span>
+
+        </div>
 
 
         <!-- REWARD SHOP -->
 
         <h2 class="section-title" id="shop">
-            ✦ 🎁 REWARD SHOP ✦
+            REWARD SHOP // ITEM DATABASE
         </h2>
 
 
@@ -591,15 +1065,13 @@
 
             <!-- MOVIE -->
 
-            <article class="reward-card" data-cost="20">
+            <article
+                class="reward-card"
+                data-cost="20">
 
-                <span class="card-sticker sticker-left">
-                    🎀
-                </span>
-
-                <span class="card-sticker sticker-right">
-                    ✦
-                </span>
+                <div class="card-code">
+                    ITEM_001
+                </div>
 
                 <div class="reward-icon">
                     🎬
@@ -615,13 +1087,13 @@
                 </p>
 
                 <div class="reward-cost">
-                    20 ⭐
+                    COST: 20 RP
                 </div>
 
                 <button
                     class="redeem-button"
-                    onclick="redeemReward('Movie of Your Choice', 20)">
-                    REDEEM ♡
+                    onclick="redeemReward('Movie of Your Choice',20)">
+                    [ REDEEM ITEM ]
                 </button>
 
             </article>
@@ -629,15 +1101,13 @@
 
             <!-- PLUS ONE -->
 
-            <article class="reward-card" data-cost="50">
+            <article
+                class="reward-card"
+                data-cost="50">
 
-                <span class="card-sticker sticker-left">
-                    💗
-                </span>
-
-                <span class="card-sticker sticker-right">
-                    ⭐
-                </span>
+                <div class="card-code">
+                    ITEM_002
+                </div>
 
                 <div class="reward-icon">
                     🧸
@@ -653,13 +1123,13 @@
                 </p>
 
                 <div class="reward-cost">
-                    50 ⭐
+                    COST: 50 RP
                 </div>
 
                 <button
                     class="redeem-button"
-                    onclick="redeemReward('I\\'m Your Plus One', 50)">
-                    REDEEM ♡
+                    onclick="redeemReward('I am Your Plus One',50)">
+                    [ REDEEM ITEM ]
                 </button>
 
             </article>
@@ -667,15 +1137,13 @@
 
             <!-- CUDDLING -->
 
-            <article class="reward-card" data-cost="60">
+            <article
+                class="reward-card"
+                data-cost="60">
 
-                <span class="card-sticker sticker-left">
-                    🔒
-                </span>
-
-                <span class="card-sticker sticker-right">
-                    ✧
-                </span>
+                <div class="card-code">
+                    ITEM_003
+                </div>
 
                 <div class="reward-icon">
                     🫂
@@ -691,29 +1159,29 @@
                 </p>
 
                 <div class="reward-cost">
-                    60 ⭐
+                    COST: 60 RP
                 </div>
 
-                <button
-                    class="redeem-button"
-                    onclick="redeemReward('Cuddling Session', 60)">
-                    REDEEM ♡
-                </button>
+                <div class="lock-label">
+                    [ LOCKED ]
+                    <br>
+                    <span class="needed">
+                        10 MORE RP REQUIRED
+                    </span>
+                </div>
 
             </article>
 
 
             <!-- ASK WHATEVER -->
 
-            <article class="reward-card" data-cost="100">
+            <article
+                class="reward-card"
+                data-cost="100">
 
-                <span class="card-sticker sticker-left">
-                    💌
-                </span>
-
-                <span class="card-sticker sticker-right">
-                    ❔
-                </span>
+                <div class="card-code">
+                    ITEM_004
+                </div>
 
                 <div class="reward-icon">
                     💌
@@ -729,14 +1197,16 @@
                 </p>
 
                 <div class="reward-cost">
-                    100 ⭐
+                    COST: 100 RP
                 </div>
 
-                <button
-                    class="redeem-button"
-                    onclick="redeemReward('Ask Whatever You Want', 100)">
-                    REDEEM ♡
-                </button>
+                <div class="lock-label">
+                    [ LOCKED ]
+                    <br>
+                    <span class="needed">
+                        50 MORE RP REQUIRED
+                    </span>
+                </div>
 
             </article>
 
@@ -744,22 +1214,47 @@
         </section>
 
 
-        <!-- RECENT POINTS -->
+        <!-- INVENTORY PLACEHOLDER -->
 
-        <h2 class="section-title">
-            ✦ ⭐ RECENT ROMA POINTS ✦
+        <h2 class="section-title" id="cards">
+            INVENTORY // COLLECTIBLES
         </h2>
 
 
-        <section class="points-list">
+        <div class="system-info">
+
+            INVENTORY DATABASE:
+            <span>INITIALIZING...</span>
+            <br>
+
+            COLLECTIBLE CARDS:
+            <span>COMING SOON</span>
+            <br>
+
+            ITEM TYPE:
+            <span>ROMA POINT CARDS</span>
+
+        </div>
+
+
+        <!-- HISTORY -->
+
+        <h2 class="section-title" id="history">
+            QUEST LOG // RECENT ACTIVITY
+        </h2>
+
+
+        <section class="point-list">
+
 
             <div class="point-entry">
 
                 <div class="point-number">
-                    +10 ⭐
+                    +10 RP
                 </div>
 
                 <div class="point-reason">
+                    QUEST COMPLETE:
                     For walking me home
                 </div>
 
@@ -769,10 +1264,11 @@
             <div class="point-entry">
 
                 <div class="point-number">
-                    +20 ⭐
+                    +20 RP
                 </div>
 
                 <div class="point-reason">
+                    QUEST COMPLETE:
                     For waiting an hour for me to get to the date
                 </div>
 
@@ -782,10 +1278,11 @@
             <div class="point-entry">
 
                 <div class="point-number">
-                    +10 ⭐
+                    +10 RP
                 </div>
 
                 <div class="point-reason">
+                    QUEST COMPLETE:
                     For listening to me yap about my psychiatric treatment
                 </div>
 
@@ -795,204 +1292,242 @@
             <div class="point-entry">
 
                 <div class="point-number">
-                    +10 ⭐
+                    +10 RP
                 </div>
 
                 <div class="point-reason">
+                    QUEST COMPLETE:
                     For being cute
                 </div>
 
             </div>
 
+
         </section>
 
 
-        <footer>
-            Made with ♡ for Player 01
-        </footer>
+    </div>
 
 
-    </main>
+    <!-- FOOTER -->
+
+    <footer>
+
+        ROMA POINTS SYSTEM // PLAYER 01
+        <br>
+        SAVE DATA: LOCAL // VERSION 1.0
+
+    </footer>
 
 
-    <!-- SUCCESS POPUP -->
+</main>
 
-    <div class="popup" id="popup">
 
-        <div class="success">
-            🎉
+<!-- POPUP -->
+
+<div
+    class="popup-overlay"
+    id="popup">
+
+    <div class="popup">
+
+        <div class="popup-icon">
+            🎮
         </div>
 
         <h2>
-            REWARD UNLOCKED! ♡
+            ITEM ACQUIRED
         </h2>
 
         <p id="popup-message">
-            You redeemed a reward!
+            Reward successfully redeemed.
         </p>
 
         <button
             class="close-popup"
             onclick="closePopup()">
-            OKAY ♡
+
+            [ OK ]
+
         </button>
 
     </div>
 
-
-    <script>
-
-        /*
-        ==========================================
-        ROMA POINTS SYSTEM
-        ==========================================
-        */
-
-        let points = 50;
+</div>
 
 
-        /*
-        UPDATE POINT DISPLAY
-        */
-
-        function updatePoints() {
-
-            document.getElementById("points").textContent = points;
-
-            updateRewards();
-
-        }
+<script>
 
 
-        /*
-        CHECK WHICH REWARDS ARE AVAILABLE
-        */
+/* =====================================================
+   ROMA POINTS
+   ===================================================== */
 
-        function updateRewards() {
-
-            const cards =
-                document.querySelectorAll(".reward-card");
-
-            cards.forEach(card => {
-
-                const cost =
-                    Number(card.dataset.cost);
-
-                const button =
-                    card.querySelector(".redeem-button");
-
-                const lock =
-                    card.querySelector(".lock");
+let points = 50;
 
 
-                if (points >= cost) {
+/* =====================================================
+   UPDATE POINTS
+   ===================================================== */
 
-                    card.classList.remove("locked");
+function updatePoints() {
 
-                    if (button) {
+    document.getElementById("points").textContent =
+        points;
 
-                        button.style.display =
-                            "inline-block";
+    document.getElementById("statusPoints").textContent =
+        points;
 
-                    }
+    updateRewards();
 
-                    if (lock) {
-                        lock.remove();
-                    }
-
-                }
-
-                else {
-
-                    card.classList.add("locked");
-
-                    if (button) {
-
-                        button.style.display =
-                            "none";
-
-                    }
-
-                    if (!card.querySelector(".lock")) {
-
-                        const needed =
-                            cost - points;
-
-                        const newLock =
-                            document.createElement("div");
-
-                        newLock.className = "lock";
-
-                        newLock.textContent =
-                            "🔒 " +
-                            needed +
-                            " MORE RP NEEDED";
-
-                        card.appendChild(newLock);
-
-                    }
-
-                }
-
-            });
-
-        }
+}
 
 
-        /*
-        REDEEM REWARD
-        */
+/* =====================================================
+   UPDATE REWARD STATES
+   ===================================================== */
 
-        function redeemReward(name, cost) {
+function updateRewards() {
 
-            if (points < cost) {
+    const cards =
+        document.querySelectorAll(".reward-card");
 
-                return;
+
+    cards.forEach(card => {
+
+        const cost =
+            Number(card.dataset.cost);
+
+
+        const button =
+            card.querySelector(".redeem-button");
+
+
+        const lock =
+            card.querySelector(".lock-label");
+
+
+        const needed =
+            card.querySelector(".needed");
+
+
+        if (points >= cost) {
+
+            card.classList.remove("locked");
+
+
+            if (button) {
+
+                button.style.display =
+                    "block";
 
             }
 
 
-            points -= cost;
+            if (lock) {
 
+                lock.style.display =
+                    "none";
 
-            updatePoints();
-
-
-            document.getElementById(
-                "popup-message"
-            ).textContent =
-                "You redeemed: " +
-                name +
-                " ♡";
-
-
-            document.getElementById(
-                "popup"
-            ).classList.add("show");
+            }
 
         }
 
 
-        /*
-        CLOSE POPUP
-        */
+        else {
 
-        function closePopup() {
+            card.classList.add("locked");
 
-            document.getElementById(
-                "popup"
-            ).classList.remove("show");
+
+            if (button) {
+
+                button.style.display =
+                    "none";
+
+            }
+
+
+            if (lock) {
+
+                lock.style.display =
+                    "block";
+
+            }
+
+
+            if (needed) {
+
+                needed.textContent =
+                    (cost - points) +
+                    " MORE RP REQUIRED";
+
+            }
 
         }
 
+    });
 
-        /*
-        START SYSTEM
-        */
+}
 
-        updatePoints();
 
-    </script>
+/* =====================================================
+   REDEEM
+   ===================================================== */
+
+function redeemReward(name, cost) {
+
+
+    if (points < cost) {
+
+        return;
+
+    }
+
+
+    points -= cost;
+
+
+    updatePoints();
+
+
+    document.getElementById(
+        "popup-message"
+    ).textContent =
+        "ITEM ACQUIRED: " +
+        name +
+        " // -" +
+        cost +
+        " RP";
+
+
+    document.getElementById(
+        "popup"
+    ).classList.add("show");
+
+}
+
+
+/* =====================================================
+   CLOSE POPUP
+   ===================================================== */
+
+function closePopup() {
+
+    document.getElementById(
+        "popup"
+    ).classList.remove("show");
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+   ===================================================== */
+
+updatePoints();
+
+
+</script>
 
 
 </body>
