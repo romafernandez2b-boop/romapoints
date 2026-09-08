@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -21,8 +22,9 @@
             font-family: "Trebuchet MS", Arial, sans-serif;
 
             background:
-                radial-gradient(circle at 20% 20%, #ffd6ec 0%, transparent 25%),
-                radial-gradient(circle at 80% 80%, #dcd0ff 0%, transparent 25%),
+                radial-gradient(circle at 10% 10%, #ffd6ec 0%, transparent 25%),
+                radial-gradient(circle at 90% 20%, #dcd0ff 0%, transparent 25%),
+                radial-gradient(circle at 20% 90%, #ccecff 0%, transparent 20%),
                 #fff4fb;
 
             color: #59415f;
@@ -30,102 +32,153 @@
             overflow-x: hidden;
         }
 
-        /* Floating decorations */
 
-        .decoration {
+        /* =========================
+           FLOATING STICKERS
+        ========================= */
+
+        .sticker {
             position: fixed;
+
             pointer-events: none;
+
             z-index: 0;
-            opacity: 0.7;
+
+            user-select: none;
+
+            animation: float 4s ease-in-out infinite;
         }
 
         .star1 {
             top: 8%;
-            left: 7%;
-            font-size: 28px;
+            left: 6%;
+            font-size: 32px;
         }
 
         .star2 {
             top: 25%;
-            right: 8%;
-            font-size: 22px;
+            right: 7%;
+            font-size: 24px;
+            animation-delay: 1s;
         }
 
         .heart1 {
             bottom: 15%;
-            left: 8%;
-            font-size: 24px;
+            left: 7%;
+            font-size: 28px;
+            animation-delay: 2s;
         }
 
         .heart2 {
             top: 55%;
-            right: 7%;
-            font-size: 18px;
+            right: 6%;
+            font-size: 20px;
+            animation-delay: 1.5s;
         }
 
-        /* Main container */
+        .bow {
+            top: 12%;
+            right: 15%;
+            font-size: 28px;
+            animation-delay: .5s;
+        }
+
+        @keyframes float {
+
+            0%, 100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-8px) rotate(5deg);
+            }
+
+        }
+
+
+        /* =========================
+           GAME SCREEN
+        ========================= */
 
         .game-screen {
+
             position: relative;
+
             z-index: 1;
 
-            width: min(900px, 92%);
+            width: min(1000px, 92%);
 
             margin: 35px auto;
 
             padding: 35px;
 
-            background: rgba(255, 255, 255, 0.82);
+            background: rgba(255,255,255,.88);
 
             border: 3px solid #f3a6cc;
 
             border-radius: 30px;
 
             box-shadow:
-                0 0 0 6px rgba(255, 255, 255, 0.8),
-                0 15px 40px rgba(173, 108, 160, 0.18);
+                0 0 0 6px rgba(255,255,255,.8),
+                0 15px 40px rgba(173,108,160,.18);
+
         }
 
-        /* Header */
+
+        /* =========================
+           HEADER
+        ========================= */
 
         .header {
             text-align: center;
         }
 
         .tiny-title {
-            font-size: 13px;
+
+            font-size: 12px;
+
             letter-spacing: 4px;
+
             color: #b37aa2;
-            margin-bottom: 8px;
+
         }
 
         h1 {
-            margin: 0;
 
-            font-size: clamp(30px, 6vw, 55px);
+            margin: 8px 0;
+
+            font-size: clamp(30px,6vw,55px);
 
             color: #d65c9b;
 
             text-shadow:
-                2px 2px 0 #ffffff,
+                2px 2px 0 white,
                 4px 4px 0 #f5bddb;
+
         }
 
         .subtitle {
-            margin-top: 12px;
+
+            color: #8b6687;
 
             font-size: 15px;
 
-            color: #8b6687;
         }
 
         .sparkles {
+
             color: #d990bd;
+
             letter-spacing: 8px;
+
             margin: 15px 0;
+
         }
 
-        /* Player card */
+
+        /* =========================
+           PLAYER CARD
+        ========================= */
 
         .player-card {
 
@@ -137,19 +190,21 @@
 
             text-align: center;
 
-            background: linear-gradient(
-                135deg,
-                #fff,
-                #fff0f8
-            );
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #fff0f8
+                );
 
             border: 2px solid #f1afd0;
 
             border-radius: 22px;
 
             box-shadow:
-                inset 0 0 20px rgba(235, 155, 197, 0.12),
-                0 8px 20px rgba(180, 110, 160, 0.12);
+                inset 0 0 20px rgba(235,155,197,.12),
+                0 8px 20px rgba(180,110,160,.12);
+
         }
 
         .player-name {
@@ -159,11 +214,12 @@
             letter-spacing: 3px;
 
             color: #a26f93;
+
         }
 
         .points {
 
-            margin: 10px 0 2px;
+            margin: 8px 0;
 
             font-size: 65px;
 
@@ -171,7 +227,9 @@
 
             color: #db5797;
 
-            text-shadow: 2px 3px 0 #f7c8df;
+            text-shadow:
+                2px 3px 0 #f7c8df;
+
         }
 
         .points-label {
@@ -181,6 +239,7 @@
             letter-spacing: 2px;
 
             color: #8d6685;
+
         }
 
         .available {
@@ -190,20 +249,25 @@
             font-size: 11px;
 
             color: #b3839f;
+
         }
 
-        /* Menu */
+
+        /* =========================
+           MENU
+        ========================= */
 
         .menu {
 
             display: grid;
 
             grid-template-columns:
-                repeat(auto-fit, minmax(180px, 1fr));
+                repeat(auto-fit,minmax(180px,1fr));
 
             gap: 15px;
 
-            margin-top: 30px;
+            margin: 30px 0;
+
         }
 
         .menu-button {
@@ -220,7 +284,7 @@
 
             font-weight: bold;
 
-            background: #fff;
+            background: white;
 
             border: 2px solid #efb2d0;
 
@@ -228,41 +292,251 @@
 
             box-shadow: 0 5px 0 #e3a0c2;
 
-            transition: 0.15s;
+            transition: .15s;
+
         }
 
         .menu-button:hover {
 
             transform: translateY(-3px);
 
+            background: #fff7fc;
+
             box-shadow: 0 8px 0 #e3a0c2;
 
-            background: #fff7fc;
         }
 
-        .menu-button:active {
 
-            transform: translateY(2px);
-
-            box-shadow: 0 3px 0 #e3a0c2;
-        }
-
-        /* Recent points */
+        /* =========================
+           SECTION TITLES
+        ========================= */
 
         .section-title {
 
-            margin-top: 45px;
+            margin-top: 55px;
 
-            margin-bottom: 18px;
+            margin-bottom: 20px;
 
             text-align: center;
 
-            font-size: 18px;
+            font-size: 20px;
 
             color: #ca6399;
 
             letter-spacing: 2px;
+
         }
+
+
+        /* =========================
+           REWARD SHOP
+        ========================= */
+
+        .reward-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit,minmax(230px,1fr));
+
+            gap: 25px;
+
+        }
+
+
+        /* =========================
+           REWARD CARD
+        ========================= */
+
+        .reward-card {
+
+            position: relative;
+
+            padding: 25px;
+
+            min-height: 310px;
+
+            text-align: center;
+
+            background: white;
+
+            border: 3px solid #f0afd0;
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 8px 0 #e7b0cc,
+                0 15px 25px rgba(170,100,150,.12);
+
+            transition: .2s;
+
+            overflow: hidden;
+
+        }
+
+        .reward-card:hover {
+
+            transform:
+                translateY(-8px)
+                rotate(-1deg);
+
+        }
+
+
+        /* stickers inside cards */
+
+        .card-sticker {
+
+            position: absolute;
+
+            font-size: 25px;
+
+        }
+
+        .sticker-left {
+
+            top: 12px;
+            left: 12px;
+
+        }
+
+        .sticker-right {
+
+            top: 10px;
+            right: 12px;
+
+        }
+
+
+        .reward-icon {
+
+            margin-top: 15px;
+
+            font-size: 60px;
+
+        }
+
+        .reward-card h3 {
+
+            margin: 12px 0 5px;
+
+            color: #cc5d96;
+
+            font-size: 21px;
+
+        }
+
+        .reward-description {
+
+            min-height: 50px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            color: #76586f;
+
+        }
+
+        .reward-cost {
+
+            margin: 15px;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            color: #d85596;
+
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .redeem-button {
+
+            border: none;
+
+            padding: 12px 25px;
+
+            border-radius: 25px;
+
+            background: #e889ae;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow: 0 4px 0 #c96f98;
+
+            transition: .15s;
+
+        }
+
+        .redeem-button:hover {
+
+            transform: translateY(-2px);
+
+            background: #d96b9b;
+
+        }
+
+
+        /* =========================
+           LOCKED CARD
+        ========================= */
+
+        .locked {
+
+            background:
+                repeating-linear-gradient(
+                    45deg,
+                    #fff8fc,
+                    #fff8fc 10px,
+                    #fdf0f8 10px,
+                    #fdf0f8 20px
+                );
+
+            opacity: .8;
+
+        }
+
+        .locked .reward-icon {
+
+            filter: grayscale(1);
+
+            opacity: .6;
+
+        }
+
+        .lock {
+
+            display: inline-block;
+
+            margin-top: 8px;
+
+            padding: 7px 13px;
+
+            background: #eee0ea;
+
+            color: #94758c;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           RECENT POINTS
+        ========================= */
 
         .points-list {
 
@@ -271,6 +545,7 @@
             flex-direction: column;
 
             gap: 10px;
+
         }
 
         .point-entry {
@@ -288,6 +563,7 @@
             border: 1px solid #f0c3da;
 
             border-radius: 15px;
+
         }
 
         .point-number {
@@ -297,6 +573,7 @@
             font-weight: bold;
 
             color: #d85a96;
+
         }
 
         .point-reason {
@@ -304,13 +581,17 @@
             font-size: 14px;
 
             color: #74576f;
+
         }
 
-        /* Footer */
+
+        /* =========================
+           FOOTER
+        ========================= */
 
         footer {
 
-            margin-top: 40px;
+            margin-top: 45px;
 
             text-align: center;
 
@@ -319,44 +600,69 @@
             color: #b48ca7;
 
             letter-spacing: 1px;
+
         }
 
-        /* Mobile */
 
-        @media (max-width: 600px) {
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width:600px) {
 
             .game-screen {
+
                 padding: 22px;
+
                 margin: 20px auto;
+
             }
 
             .points {
+
                 font-size: 52px;
+
+            }
+
+            .reward-grid {
+
+                grid-template-columns: 1fr;
+
             }
 
             .point-entry {
+
                 align-items: flex-start;
+
             }
 
         }
 
     </style>
+
 </head>
 
 
 <body>
 
-    <!-- Decorative elements -->
 
-    <div class="decoration star1">✦</div>
-    <div class="decoration star2">✧</div>
-    <div class="decoration heart1">♡</div>
-    <div class="decoration heart2">♥</div>
+    <!-- FLOATING STICKERS -->
+
+    <div class="sticker star1">✦</div>
+
+    <div class="sticker star2">✧</div>
+
+    <div class="sticker heart1">♡</div>
+
+    <div class="sticker heart2">♥</div>
+
+    <div class="sticker bow">🎀</div>
 
 
     <main class="game-screen">
 
-        <!-- Header -->
+
+        <!-- HEADER -->
 
         <header class="header">
 
@@ -379,7 +685,7 @@
         </header>
 
 
-        <!-- Player information -->
+        <!-- PLAYER -->
 
         <section class="player-card">
 
@@ -402,37 +708,195 @@
         </section>
 
 
-        <!-- Main menu -->
+        <!-- MENU -->
 
         <nav class="menu">
 
-            <a href="#" class="menu-button">
+            <a href="#shop" class="menu-button">
                 🎁 Reward Shop
             </a>
 
-            <a href="#" class="menu-button">
+            <a href="#cards" class="menu-button">
                 🎟️ My Cards
             </a>
 
-            <a href="#" class="menu-button">
+            <a href="#special" class="menu-button">
                 💌 Special
             </a>
 
-            <a href="#" class="menu-button">
+            <a href="#history" class="menu-button">
                 📜 History
             </a>
 
         </nav>
 
 
-        <!-- Recent points -->
+        <!-- REWARD SHOP -->
+
+        <h2 class="section-title" id="shop">
+            ✦ 🎁 REWARD SHOP ✦
+        </h2>
+
+
+        <section class="reward-grid">
+
+
+            <!-- MOVIE -->
+
+            <article class="reward-card">
+
+                <span class="card-sticker sticker-left">
+                    🎀
+                </span>
+
+                <span class="card-sticker sticker-right">
+                    ✦
+                </span>
+
+                <div class="reward-icon">
+                    🎬
+                </div>
+
+                <h3>
+                    Movie of Your Choice
+                </h3>
+
+                <p class="reward-description">
+                    You choose the movie.
+                    Without complaints. ♡
+                </p>
+
+                <div class="reward-cost">
+                    20 ⭐
+                </div>
+
+                <button class="redeem-button">
+                    REDEEM ♡
+                </button>
+
+            </article>
+
+
+            <!-- PLUS ONE -->
+
+            <article class="reward-card">
+
+                <span class="card-sticker sticker-left">
+                    💗
+                </span>
+
+                <span class="card-sticker sticker-right">
+                    ⭐
+                </span>
+
+                <div class="reward-icon">
+                    🧸
+                </div>
+
+                <h3>
+                    I'm Your Plus One
+                </h3>
+
+                <p class="reward-description">
+                    I'm your plus one
+                    for whatever you need. ♡
+                </p>
+
+                <div class="reward-cost">
+                    50 ⭐
+                </div>
+
+                <button class="redeem-button">
+                    REDEEM ♡
+                </button>
+
+            </article>
+
+
+            <!-- CUDDLING -->
+
+            <article class="reward-card locked">
+
+                <span class="card-sticker sticker-left">
+                    🔒
+                </span>
+
+                <span class="card-sticker sticker-right">
+                    ✧
+                </span>
+
+                <div class="reward-icon">
+                    🫂
+                </div>
+
+                <h3>
+                    Cuddling Session
+                </h3>
+
+                <p class="reward-description">
+                    A dedicated cuddling session.
+                    No expiration date. ♡
+                </p>
+
+                <div class="reward-cost">
+                    60 ⭐
+                </div>
+
+                <div class="lock">
+                    🔒 10 MORE RP NEEDED
+                </div>
+
+            </article>
+
+
+            <!-- ASK WHATEVER -->
+
+            <article class="reward-card locked">
+
+                <span class="card-sticker sticker-left">
+                    💌
+                </span>
+
+                <span class="card-sticker sticker-right">
+                    ❔
+                </span>
+
+                <div class="reward-icon">
+                    💌
+                </div>
+
+                <h3>
+                    Ask Whatever You Want
+                </h3>
+
+                <p class="reward-description">
+                    You can ask whatever you want,
+                    as long as it's legal. ♡
+                </p>
+
+                <div class="reward-cost">
+                    100 ⭐
+                </div>
+
+                <div class="lock">
+                    🔒 50 MORE RP NEEDED
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+        <!-- RECENT POINTS -->
 
         <h2 class="section-title">
-            ✦ RECENT ROMA POINTS ✦
+            ✦ ⭐ RECENT ROMA POINTS ✦
         </h2>
 
 
         <section class="points-list">
+
 
             <div class="point-entry">
 
@@ -485,6 +949,7 @@
 
             </div>
 
+
         </section>
 
 
@@ -492,7 +957,9 @@
             Made with ♡ for Player 01
         </footer>
 
+
     </main>
+
 
 </body>
 
