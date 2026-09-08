@@ -10,9 +10,10 @@
 
 <style>
 
-/* =====================================================
-   ROMA POINTS // RETRO GAME SYSTEM
-   ===================================================== */
+/* =========================================================
+   ROMA POINTS
+   RETRO PS2 / PC 2000s RPG INTERFACE
+   ========================================================= */
 
 * {
     box-sizing: border-box;
@@ -32,23 +33,24 @@ body {
         Courier,
         monospace;
 
+    color: #e8e8e8;
+
     background:
         radial-gradient(
-            circle at center,
-            #24303b 0%,
-            #111820 45%,
-            #080c10 100%
+            circle at 50% 30%,
+            #30202d 0%,
+            #15151c 35%,
+            #090b10 75%,
+            #050608 100%
         );
-
-    color: #d8e3e8;
 
     overflow-x: hidden;
 }
 
 
-/* =====================================================
-   CRT EFFECT
-   ===================================================== */
+/* =========================================================
+   CRT SCANLINES
+   ========================================================= */
 
 body::before {
 
@@ -60,7 +62,7 @@ body::before {
 
     pointer-events: none;
 
-    z-index: 999;
+    z-index: 9999;
 
     background:
         repeating-linear-gradient(
@@ -71,13 +73,36 @@ body::before {
             transparent 4px
         );
 
-    opacity: .35;
+    opacity: .45;
+
 }
 
 
-/* =====================================================
-   BACKGROUND PIXELS
-   ===================================================== */
+/* =========================================================
+   CRT VIGNETTE
+   ========================================================= */
+
+body::after {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 9998;
+
+    box-shadow:
+        inset 0 0 130px rgba(0,0,0,.85);
+
+}
+
+
+/* =========================================================
+   FLOATING PIXELS
+   ========================================================= */
 
 .pixel {
 
@@ -87,45 +112,52 @@ body::before {
 
     pointer-events: none;
 
-    color: #55d6be;
+    color: #ff4fa3;
+
+    font-size: 13px;
 
     text-shadow:
-        0 0 8px #55d6be;
+        0 0 8px #ff4fa3;
 
-    animation: blink 2s infinite;
+    animation: blink 2.5s infinite;
 
 }
 
 .pixel.one {
-    top: 8%;
+    top: 9%;
     left: 5%;
 }
 
 .pixel.two {
     top: 18%;
     right: 8%;
-    color: #7aa7ff;
     animation-delay: .5s;
 }
 
 .pixel.three {
     bottom: 15%;
     left: 9%;
-    color: #d58cff;
+    color: #b77cff;
     animation-delay: 1s;
 }
 
 .pixel.four {
     bottom: 25%;
     right: 5%;
-    color: #55d6be;
     animation-delay: 1.5s;
+}
+
+.pixel.five {
+    top: 55%;
+    right: 15%;
+    color: #ff4fa3;
+    animation-delay: .8s;
 }
 
 @keyframes blink {
 
     0%,100% {
-        opacity: .25;
+        opacity: .2;
     }
 
     50% {
@@ -135,9 +167,9 @@ body::before {
 }
 
 
-/* =====================================================
-   MAIN GAME WINDOW
-   ===================================================== */
+/* =========================================================
+   GAME WINDOW
+   ========================================================= */
 
 .game-window {
 
@@ -145,24 +177,28 @@ body::before {
 
     z-index: 1;
 
-    width: min(1100px, 94%);
+    width: min(1120px, 94%);
 
-    margin: 30px auto;
+    margin: 28px auto;
 
-    background: #151d24;
+    background: #12151b;
 
-    border: 2px solid #65747d;
+    border: 2px solid #666875;
 
     box-shadow:
-        0 0 0 1px #050708,
-        0 0 30px rgba(0,0,0,.7);
+
+        0 0 0 1px #020305,
+
+        0 0 0 4px rgba(255,79,163,.05),
+
+        0 0 40px rgba(0,0,0,.9);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    TOP BAR
-   ===================================================== */
+   ========================================================= */
 
 .top-bar {
 
@@ -177,13 +213,13 @@ body::before {
     background:
         linear-gradient(
             to bottom,
-            #34434e,
-            #202a31
+            #393b46,
+            #20232b
         );
 
-    border-bottom: 2px solid #090c0f;
+    border-bottom: 2px solid #08090c;
 
-    font-size: 12px;
+    font-size: 11px;
 
     letter-spacing: 1px;
 
@@ -191,7 +227,7 @@ body::before {
 
 .system-name {
 
-    color: #e5edf1;
+    color: #eeeeee;
 
     font-weight: bold;
 
@@ -199,84 +235,287 @@ body::before {
 
 .system-status {
 
-    color: #55d6be;
+    color: #ff4fa3;
 
     text-shadow:
-        0 0 8px #55d6be;
+        0 0 8px #ff4fa3;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    HEADER
-   ===================================================== */
+   ========================================================= */
 
 .header {
 
-    padding: 40px 30px 25px;
+    position: relative;
+
+    padding: 42px 30px 28px;
 
     text-align: center;
 
     background:
         linear-gradient(
             180deg,
-            #1b252d,
-            #11181e
+            #211923,
+            #11141a
         );
 
-    border-bottom: 1px solid #39464e;
+    border-bottom: 1px solid #3e414b;
+
+    overflow: hidden;
 
 }
 
+
+/* decorative grid */
+
+.header::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: .12;
+
+    background-image:
+
+        linear-gradient(
+            #ff4fa3 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            #ff4fa3 1px,
+            transparent 1px
+        );
+
+    background-size: 28px 28px;
+
+}
+
+
+/* horizontal scan line */
+
+.header::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: 0;
+
+    height: 2px;
+
+    background: #ff4fa3;
+
+    opacity: .5;
+
+    animation: scan 4s linear infinite;
+
+}
+
+@keyframes scan {
+
+    0% {
+        top: 0;
+    }
+
+    100% {
+        top: 100%;
+    }
+
+}
+
+
 .logo {
 
-    font-size: clamp(25px, 5vw, 50px);
+    position: relative;
+
+    z-index: 1;
+
+    font-size: clamp(25px, 5vw, 52px);
 
     font-weight: bold;
 
     letter-spacing: 5px;
 
-    color: #55d6be;
+    color: #ff4fa3;
 
     text-shadow:
-        0 0 5px #55d6be,
-        0 0 15px rgba(85,214,190,.45);
+
+        2px 2px 0 #7d244f,
+
+        0 0 5px #ff4fa3,
+
+        0 0 20px rgba(255,79,163,.5);
+
+    animation: glitch 5s infinite;
+
+}
+
+@keyframes glitch {
+
+    0%, 92%, 100% {
+        transform: translateX(0);
+    }
+
+    93% {
+        transform: translateX(-2px);
+    }
+
+    94% {
+        transform: translateX(2px);
+    }
+
+    95% {
+        transform: translateX(0);
+    }
 
 }
 
 .logo-sub {
 
+    position: relative;
+
+    z-index: 1;
+
     margin-top: 12px;
 
-    color: #84949e;
+    color: #9295a0;
 
-    font-size: 12px;
+    font-size: 11px;
 
     letter-spacing: 3px;
 
 }
 
 
-/* =====================================================
-   PLAYER STATUS
-   ===================================================== */
+/* =========================================================
+   TERMINAL LINE
+   ========================================================= */
+
+.terminal-line {
+
+    margin: 18px auto 0;
+
+    width: min(600px, 90%);
+
+    color: #a6a8b0;
+
+    font-size: 10px;
+
+    text-align: left;
+
+}
+
+.terminal-line .pink {
+
+    color: #ff4fa3;
+
+}
+
+.cursor {
+
+    display: inline-block;
+
+    width: 7px;
+
+    height: 12px;
+
+    background: #ff4fa3;
+
+    vertical-align: middle;
+
+    animation: cursorBlink 1s infinite;
+
+}
+
+@keyframes cursorBlink {
+
+    0%,50% {
+        opacity: 1;
+    }
+
+    51%,100% {
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================================================
+   PLAYER PANEL
+   ========================================================= */
 
 .player-panel {
 
-    width: min(650px, 90%);
+    position: relative;
+
+    width: min(680px, 90%);
 
     margin: 25px auto;
 
     padding: 22px;
 
-    background: #0d1318;
+    background:
+        linear-gradient(
+            145deg,
+            #151921,
+            #0a0d12
+        );
 
-    border: 1px solid #46545d;
+    border: 1px solid #4c4e59;
 
     box-shadow:
-        inset 0 0 20px rgba(0,0,0,.5);
+        inset 0 0 25px rgba(0,0,0,.6);
 
 }
+
+
+/* corner decorations */
+
+.player-panel::before,
+.player-panel::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 15px;
+    height: 15px;
+
+    border-color: #ff4fa3;
+
+    border-style: solid;
+
+}
+
+.player-panel::before {
+
+    top: -1px;
+    left: -1px;
+
+    border-width: 2px 0 0 2px;
+
+}
+
+.player-panel::after {
+
+    bottom: -1px;
+    right: -1px;
+
+    border-width: 0 2px 2px 0;
+
+}
+
 
 .player-header {
 
@@ -290,31 +529,35 @@ body::before {
 
     padding-bottom: 12px;
 
-    border-bottom: 1px dashed #46545d;
+    border-bottom: 1px dashed #484b56;
 
-    font-size: 12px;
+    font-size: 11px;
 
 }
 
 .player-id {
 
-    color: #7aa7ff;
+    color: #b77cff;
 
 }
 
 .player-online {
 
-    color: #55d6be;
+    color: #ff4fa3;
+
+    text-shadow:
+        0 0 7px rgba(255,79,163,.5);
 
 }
+
 
 .balance-title {
 
     margin-top: 20px;
 
-    color: #84949e;
+    color: #777b87;
 
-    font-size: 11px;
+    font-size: 10px;
 
     letter-spacing: 2px;
 
@@ -322,32 +565,91 @@ body::before {
 
 .balance {
 
-    margin: 4px 0;
+    margin: 3px 0;
 
-    font-size: clamp(45px, 8vw, 70px);
+    font-size: clamp(48px, 8vw, 72px);
 
     font-weight: bold;
 
-    color: #55d6be;
+    color: #ff4fa3;
 
     text-shadow:
-        0 0 8px #55d6be,
-        0 0 20px rgba(85,214,190,.3);
+
+        0 0 8px #ff4fa3,
+
+        0 0 25px rgba(255,79,163,.35);
 
 }
 
 .balance-label {
 
-    color: #84949e;
+    color: #777b87;
 
-    font-size: 11px;
+    font-size: 10px;
 
 }
 
 
-/* =====================================================
+/* =========================================================
+   XP BAR
+   ========================================================= */
+
+.xp-section {
+
+    margin-top: 20px;
+
+}
+
+.xp-label {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #777b87;
+
+    font-size: 9px;
+
+    margin-bottom: 6px;
+
+}
+
+.xp-bar {
+
+    height: 10px;
+
+    padding: 2px;
+
+    background: #080a0e;
+
+    border: 1px solid #454852;
+
+}
+
+.xp-fill {
+
+    width: 50%;
+
+    height: 100%;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #ff4fa3 0,
+            #ff4fa3 7px,
+            #9c315f 7px,
+            #9c315f 9px
+        );
+
+    box-shadow:
+        0 0 8px rgba(255,79,163,.4);
+
+}
+
+
+/* =========================================================
    NAVIGATION
-   ===================================================== */
+   ========================================================= */
 
 .navigation {
 
@@ -360,11 +662,11 @@ body::before {
 
     padding: 15px;
 
-    background: #0d1318;
+    background: #0b0e13;
 
-    border-top: 1px solid #39464e;
+    border-top: 1px solid #393c46;
 
-    border-bottom: 1px solid #39464e;
+    border-bottom: 1px solid #393c46;
 
 }
 
@@ -378,21 +680,21 @@ body::before {
 
     text-decoration: none;
 
-    color: #cbd5da;
+    color: #c7c8cd;
 
     background:
         linear-gradient(
             to bottom,
-            #303c45,
-            #202930
+            #343741,
+            #20232a
         );
 
-    border: 1px solid #596770;
+    border: 1px solid #595c67;
 
     box-shadow:
         inset 0 1px rgba(255,255,255,.08);
 
-    font-size: 11px;
+    font-size: 10px;
 
     font-weight: bold;
 
@@ -404,21 +706,24 @@ body::before {
 
 .nav-button:hover {
 
-    color: #55d6be;
+    color: #ff4fa3;
 
-    border-color: #55d6be;
+    border-color: #ff4fa3;
 
     text-shadow:
-        0 0 8px #55d6be;
+        0 0 8px #ff4fa3;
 
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 4px 15px rgba(255,79,163,.15);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    CONTENT
-   ===================================================== */
+   ========================================================= */
 
 .content {
 
@@ -436,9 +741,9 @@ body::before {
 
     margin: 35px 0 18px;
 
-    color: #7aa7ff;
+    color: #b77cff;
 
-    font-size: 14px;
+    font-size: 13px;
 
     letter-spacing: 2px;
 
@@ -448,7 +753,7 @@ body::before {
 
     content: ">";
 
-    color: #55d6be;
+    color: #ff4fa3;
 
 }
 
@@ -460,14 +765,63 @@ body::before {
 
     height: 1px;
 
-    background: #34424b;
+    background:
+        linear-gradient(
+            90deg,
+            #454852,
+            transparent
+        );
 
 }
 
 
-/* =====================================================
+/* =========================================================
+   DECORATIVE SYSTEM BOXES
+   ========================================================= */
+
+.system-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+
+    gap: 10px;
+
+}
+
+.system-box {
+
+    padding: 13px;
+
+    background: #0b0e13;
+
+    border: 1px solid #383b45;
+
+    font-size: 9px;
+
+    line-height: 1.7;
+
+}
+
+.system-box-title {
+
+    color: #777b87;
+
+    margin-bottom: 5px;
+
+}
+
+.system-box-value {
+
+    color: #ff4fa3;
+
+}
+
+
+/* =========================================================
    REWARD GRID
-   ===================================================== */
+   ========================================================= */
 
 .reward-grid {
 
@@ -481,29 +835,29 @@ body::before {
 }
 
 
-/* =====================================================
+/* =========================================================
    REWARD CARDS
-   ===================================================== */
+   ========================================================= */
 
 .reward-card {
 
     position: relative;
 
-    min-height: 320px;
+    min-height: 350px;
 
     padding: 20px;
 
     background:
         linear-gradient(
             145deg,
-            #202a32,
-            #11171c
+            #20232b,
+            #101218
         );
 
-    border: 1px solid #56646d;
+    border: 1px solid #555862;
 
     box-shadow:
-        inset 0 0 15px rgba(0,0,0,.4);
+        inset 0 0 18px rgba(0,0,0,.45);
 
     transition: .2s;
 
@@ -513,11 +867,11 @@ body::before {
 
     transform: translateY(-4px);
 
-    border-color: #55d6be;
+    border-color: #ff4fa3;
 
     box-shadow:
-        0 0 15px rgba(85,214,190,.18),
-        inset 0 0 15px rgba(0,0,0,.4);
+        0 0 18px rgba(255,79,163,.18),
+        inset 0 0 18px rgba(0,0,0,.4);
 
 }
 
@@ -529,24 +883,286 @@ body::before {
 
     right: 12px;
 
-    color: #596871;
+    color: #555862;
 
     font-size: 9px;
 
 }
 
+
+/* =========================================================
+   CSS PIXEL ICONS
+   ========================================================= */
+
 .reward-icon {
 
-    margin: 20px 0;
+    position: relative;
 
-    text-align: center;
+    width: 80px;
 
-    font-size: 55px;
+    height: 65px;
 
-    filter:
-        drop-shadow(0 0 5px rgba(255,255,255,.15));
+    margin: 20px auto 25px;
 
 }
+
+
+/* MOVIE */
+
+.icon-movie {
+
+    width: 58px;
+
+    height: 45px;
+
+    margin: 10px auto;
+
+    border: 3px solid #ff4fa3;
+
+    background: #161922;
+
+    box-shadow:
+        0 0 8px rgba(255,79,163,.25);
+
+}
+
+.icon-movie::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 7px;
+    right: 7px;
+
+    top: 7px;
+
+    height: 6px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #ff4fa3 0,
+            #ff4fa3 5px,
+            transparent 5px,
+            transparent 10px
+        );
+
+}
+
+.icon-movie::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 7px;
+    right: 7px;
+
+    bottom: 7px;
+
+    height: 6px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #ff4fa3 0,
+            #ff4fa3 5px,
+            transparent 5px,
+            transparent 10px
+        );
+
+}
+
+
+/* PLUS ONE */
+
+.icon-plus {
+
+    width: 58px;
+
+    height: 58px;
+
+    margin: 3px auto;
+
+    border: 3px solid #b77cff;
+
+    background: #161922;
+
+    box-shadow:
+        0 0 10px rgba(183,124,255,.25);
+
+}
+
+.icon-plus::before {
+
+    content: "+1";
+
+    position: absolute;
+
+    left: 7px;
+    top: 10px;
+
+    color: #b77cff;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+}
+
+
+/* CUDDLING */
+
+.icon-cuddle {
+
+    width: 64px;
+
+    height: 45px;
+
+    margin: 12px auto;
+
+}
+
+.icon-cuddle::before,
+.icon-cuddle::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 32px;
+    height: 32px;
+
+    top: 5px;
+
+    border: 3px solid #ff4fa3;
+
+    background: #161922;
+
+}
+
+.icon-cuddle::before {
+
+    left: 3px;
+
+}
+
+.icon-cuddle::after {
+
+    right: 3px;
+
+    border-color: #b77cff;
+
+}
+
+.icon-cuddle {
+
+    box-shadow:
+        inset 0 -8px 0 transparent;
+
+}
+
+
+/* MESSAGE */
+
+.icon-message {
+
+    width: 62px;
+
+    height: 45px;
+
+    margin: 10px auto;
+
+    border: 3px solid #ff4fa3;
+
+    background: #161922;
+
+    box-shadow:
+        0 0 8px rgba(255,79,163,.25);
+
+}
+
+.icon-message::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 7px;
+    right: 7px;
+
+    top: 8px;
+
+    height: 20px;
+
+    border-left: 3px solid #ff4fa3;
+
+    border-bottom: 3px solid #ff4fa3;
+
+    transform:
+        rotate(-45deg)
+        scale(.7);
+
+}
+
+
+/* GAMEPAD */
+
+.icon-game {
+
+    width: 62px;
+
+    height: 38px;
+
+    margin: 12px auto;
+
+    border: 3px solid #ff4fa3;
+
+    background: #161922;
+
+}
+
+.icon-game::before {
+
+    content: "+";
+
+    position: absolute;
+
+    left: 10px;
+
+    top: 5px;
+
+    color: #ff4fa3;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+}
+
+.icon-game::after {
+
+    content: "..";
+
+    position: absolute;
+
+    right: 10px;
+
+    top: 7px;
+
+    color: #b77cff;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================================================
+   REWARD TEXT
+   ========================================================= */
 
 .reward-card h3 {
 
@@ -554,9 +1170,9 @@ body::before {
 
     margin: 10px 0;
 
-    color: #dce6ea;
+    color: #e2e2e6;
 
-    font-size: 17px;
+    font-size: 16px;
 
 }
 
@@ -564,9 +1180,9 @@ body::before {
 
     min-height: 60px;
 
-    color: #87969f;
+    color: #858894;
 
-    font-size: 12px;
+    font-size: 11px;
 
     line-height: 1.6;
 
@@ -576,13 +1192,18 @@ body::before {
 
     margin: 15px 0;
 
-    color: #55d6be;
+    color: #ff4fa3;
 
-    font-size: 18px;
+    font-size: 17px;
 
     font-weight: bold;
 
 }
+
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
 
 .redeem-button {
 
@@ -590,17 +1211,17 @@ body::before {
 
     padding: 11px;
 
-    border: 1px solid #55d6be;
+    border: 1px solid #ff4fa3;
 
-    background: #172923;
+    background: #28141f;
 
-    color: #55d6be;
+    color: #ff4fa3;
 
     font-family: inherit;
 
     font-weight: bold;
 
-    font-size: 11px;
+    font-size: 10px;
 
     cursor: pointer;
 
@@ -610,23 +1231,23 @@ body::before {
 
 .redeem-button:hover {
 
-    background: #55d6be;
+    background: #ff4fa3;
 
-    color: #07100e;
+    color: #16070e;
 
     box-shadow:
-        0 0 12px rgba(85,214,190,.5);
+        0 0 15px rgba(255,79,163,.55);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    LOCKED
-   ===================================================== */
+   ========================================================= */
 
 .locked {
 
-    opacity: .55;
+    opacity: .5;
 
 }
 
@@ -634,10 +1255,10 @@ body::before {
 
     transform: none;
 
-    border-color: #56646d;
+    border-color: #555862;
 
     box-shadow:
-        inset 0 0 15px rgba(0,0,0,.4);
+        inset 0 0 18px rgba(0,0,0,.4);
 
 }
 
@@ -645,7 +1266,7 @@ body::before {
 
     filter:
         grayscale(1)
-        brightness(.6);
+        brightness(.5);
 
 }
 
@@ -657,22 +1278,22 @@ body::before {
 
     text-align: center;
 
-    color: #78858d;
+    color: #71747e;
 
-    background: #151b20;
+    background: #15171d;
 
-    border: 1px dashed #49555c;
+    border: 1px dashed #494c55;
 
-    font-size: 10px;
+    font-size: 9px;
 
     font-weight: bold;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    POINT LOG
-   ===================================================== */
+   ========================================================= */
 
 .point-list {
 
@@ -694,17 +1315,27 @@ body::before {
 
     padding: 13px 15px;
 
-    background: #11181d;
+    background: #0d1015;
 
-    border: 1px solid #37434b;
+    border: 1px solid #363943;
 
-    font-size: 12px;
+    font-size: 11px;
+
+    transition: .15s;
+
+}
+
+.point-entry:hover {
+
+    border-color: #ff4fa3;
+
+    transform: translateX(3px);
 
 }
 
 .point-number {
 
-    color: #55d6be;
+    color: #ff4fa3;
 
     font-weight: bold;
 
@@ -712,28 +1343,115 @@ body::before {
 
 .point-reason {
 
-    color: #9ba8af;
+    color: #9699a3;
 
 }
 
 
-/* =====================================================
-   SYSTEM INFO
-   ===================================================== */
+/* =========================================================
+   MEMORY CARD
+   ========================================================= */
 
-.system-info {
+.memory-card {
 
-    margin-top: 35px;
+    position: relative;
+
+    margin-top: 25px;
+
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #181b22,
+            #0b0e13
+        );
+
+    border: 1px solid #4a4d57;
+
+}
+
+.memory-title {
+
+    color: #b77cff;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 12px;
+
+}
+
+.memory-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 5px 0;
+
+    border-bottom: 1px dotted #333640;
+
+    color: #777b87;
+
+    font-size: 9px;
+
+}
+
+.memory-row span:last-child {
+
+    color: #ff4fa3;
+
+}
+
+
+/* =========================================================
+   QUEST ALERT
+   ========================================================= */
+
+.quest-alert {
+
+    margin-top: 25px;
 
     padding: 15px;
 
-    background: #0c1216;
+    background: #160d13;
 
-    border: 1px solid #303c44;
+    border: 1px solid #713651;
 
-    color: #66757e;
+    color: #9d8290;
 
     font-size: 10px;
+
+    line-height: 1.7;
+
+}
+
+.quest-alert strong {
+
+    color: #ff4fa3;
+
+}
+
+
+/* =========================================================
+   SYSTEM INFO
+   ========================================================= */
+
+.system-info {
+
+    margin-top: 25px;
+
+    padding: 15px;
+
+    background: #0a0d11;
+
+    border: 1px solid #30333b;
+
+    color: #676b76;
+
+    font-size: 9px;
 
     line-height: 1.8;
 
@@ -741,35 +1459,35 @@ body::before {
 
 .system-info span {
 
-    color: #55d6be;
+    color: #ff4fa3;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    FOOTER
-   ===================================================== */
+   ========================================================= */
 
 footer {
 
-    padding: 20px;
+    padding: 22px;
 
     text-align: center;
 
-    color: #56646d;
+    color: #50535c;
 
-    border-top: 1px solid #303c44;
+    border-top: 1px solid #30333b;
 
-    font-size: 10px;
+    font-size: 9px;
 
     letter-spacing: 2px;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    POPUP
-   ===================================================== */
+   ========================================================= */
 
 .popup-overlay {
 
@@ -779,9 +1497,9 @@ footer {
 
     inset: 0;
 
-    z-index: 1000;
+    z-index: 10000;
 
-    background: rgba(0,0,0,.75);
+    background: rgba(0,0,0,.82);
 
 }
 
@@ -797,34 +1515,81 @@ footer {
 
 .popup {
 
+    position: relative;
+
     width: min(430px, 90%);
 
     padding: 30px;
 
     text-align: center;
 
-    background: #151e25;
+    background:
+        linear-gradient(
+            145deg,
+            #21151d,
+            #101218
+        );
 
-    border: 2px solid #55d6be;
+    border: 2px solid #ff4fa3;
 
     box-shadow:
-        0 0 30px rgba(85,214,190,.25);
+        0 0 35px rgba(255,79,163,.3);
+
+}
+
+.popup::before {
+
+    content: "SYSTEM MESSAGE";
+
+    position: absolute;
+
+    top: -9px;
+
+    left: 15px;
+
+    padding: 2px 7px;
+
+    background: #101218;
+
+    color: #ff4fa3;
+
+    font-size: 8px;
 
 }
 
 .popup-icon {
 
-    font-size: 50px;
+    width: 62px;
 
-    margin-bottom: 10px;
+    height: 38px;
+
+    margin: 5px auto 20px;
+
+    border: 3px solid #ff4fa3;
+
+    background: #161922;
+
+}
+
+.popup-icon::before {
+
+    content: ">_";
+
+    color: #ff4fa3;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    line-height: 32px;
 
 }
 
 .popup h2 {
 
-    color: #55d6be;
+    color: #ff4fa3;
 
-    font-size: 20px;
+    font-size: 19px;
 
     letter-spacing: 2px;
 
@@ -832,9 +1597,9 @@ footer {
 
 .popup p {
 
-    color: #9ba8af;
+    color: #9b9da6;
 
-    font-size: 12px;
+    font-size: 11px;
 
     line-height: 1.7;
 
@@ -846,11 +1611,11 @@ footer {
 
     padding: 11px 30px;
 
-    border: 1px solid #55d6be;
+    border: 1px solid #ff4fa3;
 
-    background: #172923;
+    background: #28141f;
 
-    color: #55d6be;
+    color: #ff4fa3;
 
     font-family: inherit;
 
@@ -862,16 +1627,16 @@ footer {
 
 .close-popup:hover {
 
-    background: #55d6be;
+    background: #ff4fa3;
 
-    color: #07100e;
+    color: #16070e;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    MOBILE
-   ===================================================== */
+   ========================================================= */
 
 @media(max-width:600px) {
 
@@ -907,12 +1672,20 @@ footer {
 
     }
 
+    .point-entry {
+
+        grid-template-columns: 1fr;
+
+        gap: 5px;
+
+    }
+
 }
 
 
-/* =====================================================
-   END
-   ===================================================== */
+/* =========================================================
+   END CSS
+   ========================================================= */
 
 </style>
 
@@ -922,426 +1695,728 @@ footer {
 <body>
 
 
-<!-- BACKGROUND PIXELS -->
+<!-- =====================================================
+     FLOATING BACKGROUND PIXELS
+     ===================================================== -->
 
-<div class="pixel one">◆</div>
-<div class="pixel two">◆</div>
-<div class="pixel three">◆</div>
-<div class="pixel four">◆</div>
+<div class="pixel one">+</div>
+<div class="pixel two">*</div>
+<div class="pixel three">+</div>
+<div class="pixel four">*</div>
+<div class="pixel five">+</div>
 
 
 <main class="game-window">
 
 
-    <!-- TOP BAR -->
+<!-- =====================================================
+     TOP BAR
+     ===================================================== -->
 
-    <div class="top-bar">
+<div class="top-bar">
 
-        <div class="system-name">
-            ROMA POINTS // SYSTEM 01
+    <div class="system-name">
+        ROMA POINTS // SYSTEM 01
+    </div>
+
+    <div class="system-status">
+        SYSTEM ONLINE
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<header class="header">
+
+    <div class="logo">
+        PLAYER DATABASE
+    </div>
+
+    <div class="logo-sub">
+        ROMA REWARD MANAGEMENT SYSTEM // BUILD 2004.09
+    </div>
+
+    <div class="terminal-line">
+
+        <span class="pink">></span>
+        PLAYER DETECTED:
+        TOMI_01
+        //
+        ACCESS LEVEL:
+        PLAYER
+
+        <span class="cursor"></span>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     PLAYER PANEL
+     ===================================================== -->
+
+<section class="player-panel">
+
+    <div class="player-header">
+
+        <div class="player-id">
+            PLAYER 01 // TOMI
         </div>
 
-        <div class="system-status">
-            ● SYSTEM ONLINE
+        <div class="player-online">
+            STATUS: ONLINE
         </div>
 
     </div>
 
 
-    <!-- HEADER -->
+    <div class="balance-title">
+        CURRENT BALANCE
+    </div>
 
-    <header class="header">
 
-        <div class="logo">
-            PLAYER DATABASE
+    <div class="balance">
+
+        <span id="points">50</span>
+        RP
+
+    </div>
+
+
+    <div class="balance-label">
+        ROMA POINTS // AVAILABLE TO REDEEM
+    </div>
+
+
+    <div class="xp-section">
+
+        <div class="xp-label">
+
+            <span>
+                REWARD PROGRESS
+            </span>
+
+            <span>
+                50 / 100
+            </span>
+
         </div>
 
-        <div class="logo-sub">
-            ROMA REWARD MANAGEMENT SYSTEM // BUILD 2004.09
-        </div>
+        <div class="xp-bar">
 
-    </header>
-
-
-    <!-- PLAYER STATUS -->
-
-    <section class="player-panel">
-
-        <div class="player-header">
-
-            <div class="player-id">
-                PLAYER 01 // TOMI
-            </div>
-
-            <div class="player-online">
-                STATUS: ONLINE
-            </div>
+            <div class="xp-fill"></div>
 
         </div>
 
+    </div>
 
-        <div class="balance-title">
-            CURRENT BALANCE
+</section>
+
+
+<!-- =====================================================
+     NAVIGATION
+     ===================================================== -->
+
+<nav class="navigation">
+
+    <a href="#status" class="nav-button">
+        [ STATUS ]
+    </a>
+
+    <a href="#cards" class="nav-button">
+        [ INVENTORY ]
+    </a>
+
+    <a href="#shop" class="nav-button">
+        [ REWARD SHOP ]
+    </a>
+
+    <a href="#history" class="nav-button">
+        [ QUEST LOG ]
+    </a>
+
+</nav>
+
+
+<div class="content">
+
+
+<!-- =====================================================
+     STATUS
+     ===================================================== -->
+
+<h2 class="section-title" id="status">
+    PLAYER STATUS
+</h2>
+
+
+<div class="system-grid">
+
+    <div class="system-box">
+
+        <div class="system-box-title">
+            PLAYER ID
         </div>
 
-        <div class="balance">
-            <span id="points">50</span>
+        <div class="system-box-value">
+            TOMI_01
+        </div>
+
+    </div>
+
+
+    <div class="system-box">
+
+        <div class="system-box-title">
+            ACCOUNT STATUS
+        </div>
+
+        <div class="system-box-value">
+            ACTIVE
+        </div>
+
+    </div>
+
+
+    <div class="system-box">
+
+        <div class="system-box-title">
+            REWARD SYSTEM
+        </div>
+
+        <div class="system-box-value">
+            ONLINE
+        </div>
+
+    </div>
+
+
+    <div class="system-box">
+
+        <div class="system-box-title">
+            CURRENT RP
+        </div>
+
+        <div class="system-box-value">
+
+            <span id="statusPoints">
+                50
+            </span>
+
             RP
-        </div>
-
-        <div class="balance-label">
-            ROMA POINTS // AVAILABLE TO REDEEM
-        </div>
-
-    </section>
-
-
-    <!-- NAVIGATION -->
-
-    <nav class="navigation">
-
-        <a href="#status" class="nav-button">
-            [ STATUS ]
-        </a>
-
-        <a href="#cards" class="nav-button">
-            [ INVENTORY ]
-        </a>
-
-        <a href="#shop" class="nav-button">
-            [ REWARD SHOP ]
-        </a>
-
-        <a href="#history" class="nav-button">
-            [ QUEST LOG ]
-        </a>
-
-    </nav>
-
-
-    <div class="content">
-
-
-        <!-- STATUS -->
-
-        <h2 class="section-title" id="status">
-            PLAYER STATUS
-        </h2>
-
-
-        <div class="system-info">
-
-            PLAYER ID:
-            <span>TOMI_01</span>
-            <br>
-
-            ACCOUNT STATUS:
-            <span>ACTIVE</span>
-            <br>
-
-            REWARD SYSTEM:
-            <span>ONLINE</span>
-            <br>
-
-            CURRENT RP:
-            <span id="statusPoints">50</span>
-            <br>
-
-            SYSTEM MESSAGE:
-            <span>WELCOME BACK, PLAYER.</span>
 
         </div>
 
+    </div>
 
-        <!-- REWARD SHOP -->
+</div>
 
-        <h2 class="section-title" id="shop">
-            REWARD SHOP // ITEM DATABASE
-        </h2>
 
+<div class="system-info">
 
-        <section class="reward-grid">
+    SYSTEM MESSAGE:
+    <span>
+        WELCOME BACK, PLAYER.
+    </span>
 
+    <br>
 
-            <!-- MOVIE -->
+    DATABASE:
+    <span>
+        ROMA_REWARDS.DAT
+    </span>
 
-            <article
-                class="reward-card"
-                data-cost="20">
+    <br>
 
-                <div class="card-code">
-                    ITEM_001
-                </div>
+    SAVE STATUS:
+    <span>
+        LOCAL SAVE ACTIVE
+    </span>
 
-                <div class="reward-icon">
-                    🎬
-                </div>
+</div>
 
-                <h3>
-                    Movie of Your Choice
-                </h3>
 
-                <p class="reward-description">
-                    You choose the movie.
-                    Without complaints. ♡
-                </p>
+<!-- =====================================================
+     MEMORY CARD
+     ===================================================== -->
 
-                <div class="reward-cost">
-                    COST: 20 RP
-                </div>
+<div class="memory-card">
 
-                <button
-                    class="redeem-button"
-                    onclick="redeemReward('Movie of Your Choice',20)">
-                    [ REDEEM ITEM ]
-                </button>
+    <div class="memory-title">
+        MEMORY CARD // SLOT 01
+    </div>
 
-            </article>
 
+    <div class="memory-row">
 
-            <!-- PLUS ONE -->
+        <span>
+            PLAYER
+        </span>
 
-            <article
-                class="reward-card"
-                data-cost="50">
-
-                <div class="card-code">
-                    ITEM_002
-                </div>
-
-                <div class="reward-icon">
-                    🧸
-                </div>
-
-                <h3>
-                    I'm Your Plus One
-                </h3>
-
-                <p class="reward-description">
-                    I'm your plus one
-                    for whatever you need. ♡
-                </p>
-
-                <div class="reward-cost">
-                    COST: 50 RP
-                </div>
-
-                <button
-                    class="redeem-button"
-                    onclick="redeemReward('I am Your Plus One',50)">
-                    [ REDEEM ITEM ]
-                </button>
-
-            </article>
-
-
-            <!-- CUDDLING -->
-
-            <article
-                class="reward-card"
-                data-cost="60">
-
-                <div class="card-code">
-                    ITEM_003
-                </div>
-
-                <div class="reward-icon">
-                    🫂
-                </div>
-
-                <h3>
-                    Cuddling Session
-                </h3>
-
-                <p class="reward-description">
-                    A dedicated cuddling session.
-                    No expiration date. ♡
-                </p>
-
-                <div class="reward-cost">
-                    COST: 60 RP
-                </div>
-
-                <div class="lock-label">
-                    [ LOCKED ]
-                    <br>
-                    <span class="needed">
-                        10 MORE RP REQUIRED
-                    </span>
-                </div>
-
-            </article>
-
-
-            <!-- ASK WHATEVER -->
-
-            <article
-                class="reward-card"
-                data-cost="100">
-
-                <div class="card-code">
-                    ITEM_004
-                </div>
-
-                <div class="reward-icon">
-                    💌
-                </div>
-
-                <h3>
-                    Ask Whatever You Want
-                </h3>
-
-                <p class="reward-description">
-                    You can ask whatever you want,
-                    as long as it's legal. ♡
-                </p>
-
-                <div class="reward-cost">
-                    COST: 100 RP
-                </div>
-
-                <div class="lock-label">
-                    [ LOCKED ]
-                    <br>
-                    <span class="needed">
-                        50 MORE RP REQUIRED
-                    </span>
-                </div>
-
-            </article>
-
-
-        </section>
-
-
-        <!-- INVENTORY PLACEHOLDER -->
-
-        <h2 class="section-title" id="cards">
-            INVENTORY // COLLECTIBLES
-        </h2>
-
-
-        <div class="system-info">
-
-            INVENTORY DATABASE:
-            <span>INITIALIZING...</span>
-            <br>
-
-            COLLECTIBLE CARDS:
-            <span>COMING SOON</span>
-            <br>
-
-            ITEM TYPE:
-            <span>ROMA POINT CARDS</span>
-
-        </div>
-
-
-        <!-- HISTORY -->
-
-        <h2 class="section-title" id="history">
-            QUEST LOG // RECENT ACTIVITY
-        </h2>
-
-
-        <section class="point-list">
-
-
-            <div class="point-entry">
-
-                <div class="point-number">
-                    +10 RP
-                </div>
-
-                <div class="point-reason">
-                    QUEST COMPLETE:
-                    For walking me home
-                </div>
-
-            </div>
-
-
-            <div class="point-entry">
-
-                <div class="point-number">
-                    +20 RP
-                </div>
-
-                <div class="point-reason">
-                    QUEST COMPLETE:
-                    For waiting an hour for me to get to the date
-                </div>
-
-            </div>
-
-
-            <div class="point-entry">
-
-                <div class="point-number">
-                    +10 RP
-                </div>
-
-                <div class="point-reason">
-                    QUEST COMPLETE:
-                    For listening to me yap about my psychiatric treatment
-                </div>
-
-            </div>
-
-
-            <div class="point-entry">
-
-                <div class="point-number">
-                    +10 RP
-                </div>
-
-                <div class="point-reason">
-                    QUEST COMPLETE:
-                    For being cute
-                </div>
-
-            </div>
-
-
-        </section>
-
+        <span>
+            TOMI_01
+        </span>
 
     </div>
 
 
-    <!-- FOOTER -->
+    <div class="memory-row">
 
-    <footer>
+        <span>
+            POINT DATA
+        </span>
 
-        ROMA POINTS SYSTEM // PLAYER 01
+        <span>
+            50 RP
+        </span>
+
+    </div>
+
+
+    <div class="memory-row">
+
+        <span>
+            SAVE STATUS
+        </span>
+
+        <span>
+            SAVED
+        </span>
+
+    </div>
+
+
+    <div class="memory-row">
+
+        <span>
+            SYSTEM VERSION
+        </span>
+
+        <span>
+            1.0
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     REWARD SHOP
+     ===================================================== -->
+
+<h2 class="section-title" id="shop">
+    REWARD SHOP // ITEM DATABASE
+</h2>
+
+
+<section class="reward-grid">
+
+
+<!-- MOVIE -->
+
+<article
+    class="reward-card"
+    data-cost="20">
+
+    <div class="card-code">
+        ITEM_001
+    </div>
+
+
+    <div class="reward-icon">
+
+        <div class="icon-movie"></div>
+
+    </div>
+
+
+    <h3>
+        Movie of Your Choice
+    </h3>
+
+
+    <p class="reward-description">
+
+        You choose the movie.
+        Without complaints. &lt;3
+
+    </p>
+
+
+    <div class="reward-cost">
+        COST: 20 RP
+    </div>
+
+
+    <button
+        class="redeem-button"
+        onclick="redeemReward('Movie of Your Choice',20)">
+
+        [ REDEEM ITEM ]
+
+    </button>
+
+</article>
+
+
+<!-- PLUS ONE -->
+
+<article
+    class="reward-card"
+    data-cost="50">
+
+    <div class="card-code">
+        ITEM_002
+    </div>
+
+
+    <div class="reward-icon">
+
+        <div class="icon-plus"></div>
+
+    </div>
+
+
+    <h3>
+        I'm Your Plus One
+    </h3>
+
+
+    <p class="reward-description">
+
+        I'm your plus one
+        for whatever you need. &lt;3
+
+    </p>
+
+
+    <div class="reward-cost">
+        COST: 50 RP
+    </div>
+
+
+    <button
+        class="redeem-button"
+        onclick="redeemReward('I am Your Plus One',50)">
+
+        [ REDEEM ITEM ]
+
+    </button>
+
+</article>
+
+
+<!-- CUDDLING -->
+
+<article
+    class="reward-card"
+    data-cost="60">
+
+    <div class="card-code">
+        ITEM_003
+    </div>
+
+
+    <div class="reward-icon">
+
+        <div class="icon-cuddle"></div>
+
+    </div>
+
+
+    <h3>
+        Cuddling Session
+    </h3>
+
+
+    <p class="reward-description">
+
+        A dedicated cuddling session.
+        No expiration date. &lt;3
+
+    </p>
+
+
+    <div class="reward-cost">
+        COST: 60 RP
+    </div>
+
+
+    <div class="lock-label">
+
+        [ LOCKED ]
+
         <br>
-        SAVE DATA: LOCAL // VERSION 1.0
 
-    </footer>
+        <span class="needed">
+            10 MORE RP REQUIRED
+        </span>
+
+    </div>
+
+</article>
+
+
+<!-- ASK WHATEVER -->
+
+<article
+    class="reward-card"
+    data-cost="100">
+
+    <div class="card-code">
+        ITEM_004
+    </div>
+
+
+    <div class="reward-icon">
+
+        <div class="icon-message"></div>
+
+    </div>
+
+
+    <h3>
+        Ask Whatever You Want
+    </h3>
+
+
+    <p class="reward-description">
+
+        You can ask whatever you want,
+        as long as it's legal. &lt;3
+
+    </p>
+
+
+    <div class="reward-cost">
+        COST: 100 RP
+    </div>
+
+
+    <div class="lock-label">
+
+        [ LOCKED ]
+
+        <br>
+
+        <span class="needed">
+            50 MORE RP REQUIRED
+        </span>
+
+    </div>
+
+</article>
+
+
+</section>
+
+
+<!-- =====================================================
+     QUEST ALERT
+     ===================================================== -->
+
+<div class="quest-alert">
+
+    <strong>
+        NEW QUEST AVAILABLE:
+    </strong>
+
+    <br>
+
+    Continue collecting ROMA POINTS to unlock
+    higher-level rewards.
+
+    <br>
+
+    Current progression:
+    PLAYER LEVEL 01 //
+    REWARD TIER 01
+
+</div>
+
+
+<!-- =====================================================
+     INVENTORY
+     ===================================================== -->
+
+<h2 class="section-title" id="cards">
+    INVENTORY // COLLECTIBLES
+</h2>
+
+
+<div class="system-info">
+
+    INVENTORY DATABASE:
+    <span>
+        INITIALIZING...
+    </span>
+
+    <br>
+
+    COLLECTIBLE CARDS:
+    <span>
+        COMING SOON
+    </span>
+
+    <br>
+
+    ITEM TYPE:
+    <span>
+        ROMA POINT CARDS
+    </span>
+
+    <br>
+
+    STORAGE:
+    <span>
+        SLOT 01
+    </span>
+
+</div>
+
+
+<!-- =====================================================
+     HISTORY
+     ===================================================== -->
+
+<h2 class="section-title" id="history">
+    QUEST LOG // RECENT ACTIVITY
+</h2>
+
+
+<section class="point-list">
+
+
+<div class="point-entry">
+
+    <div class="point-number">
+        +10 RP
+    </div>
+
+    <div class="point-reason">
+
+        QUEST COMPLETE:
+        For walking me home
+
+    </div>
+
+</div>
+
+
+<div class="point-entry">
+
+    <div class="point-number">
+        +20 RP
+    </div>
+
+    <div class="point-reason">
+
+        QUEST COMPLETE:
+        For waiting an hour for me to get to the date
+
+    </div>
+
+</div>
+
+
+<div class="point-entry">
+
+    <div class="point-number">
+        +10 RP
+    </div>
+
+    <div class="point-reason">
+
+        QUEST COMPLETE:
+        For listening to me yap about my psychiatric treatment
+
+    </div>
+
+</div>
+
+
+<div class="point-entry">
+
+    <div class="point-number">
+        +10 RP
+    </div>
+
+    <div class="point-reason">
+
+        QUEST COMPLETE:
+        For being cute
+
+    </div>
+
+</div>
+
+
+</section>
+
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+    ROMA POINTS SYSTEM // PLAYER 01
+
+    <br><br>
+
+    SAVE DATA:
+    LOCAL
+
+    //
+
+    VERSION:
+    1.0
+
+    <br>
+
+    [ END OF TRANSMISSION ]
+
+</footer>
 
 
 </main>
 
 
-<!-- POPUP -->
+<!-- =====================================================
+     POPUP
+     ===================================================== -->
 
 <div
     class="popup-overlay"
     id="popup">
 
+
     <div class="popup">
 
-        <div class="popup-icon">
-            🎮
-        </div>
+
+        <div class="popup-icon"></div>
+
 
         <h2>
             ITEM ACQUIRED
         </h2>
 
+
         <p id="popup-message">
+
             Reward successfully redeemed.
+
         </p>
+
 
         <button
             class="close-popup"
@@ -1351,24 +2426,25 @@ footer {
 
         </button>
 
+
     </div>
+
 
 </div>
 
 
 <script>
 
-
-/* =====================================================
+/* =========================================================
    ROMA POINTS
-   ===================================================== */
+   ========================================================= */
 
 let points = 50;
 
 
-/* =====================================================
+/* =========================================================
    UPDATE POINTS
-   ===================================================== */
+   ========================================================= */
 
 function updatePoints() {
 
@@ -1383,9 +2459,9 @@ function updatePoints() {
 }
 
 
-/* =====================================================
+/* =========================================================
    UPDATE REWARD STATES
-   ===================================================== */
+   ========================================================= */
 
 function updateRewards() {
 
@@ -1470,9 +2546,9 @@ function updateRewards() {
 }
 
 
-/* =====================================================
+/* =========================================================
    REDEEM
-   ===================================================== */
+   ========================================================= */
 
 function redeemReward(name, cost) {
 
@@ -1493,6 +2569,7 @@ function redeemReward(name, cost) {
     document.getElementById(
         "popup-message"
     ).textContent =
+
         "ITEM ACQUIRED: " +
         name +
         " // -" +
@@ -1507,9 +2584,9 @@ function redeemReward(name, cost) {
 }
 
 
-/* =====================================================
+/* =========================================================
    CLOSE POPUP
-   ===================================================== */
+   ========================================================= */
 
 function closePopup() {
 
@@ -1520,12 +2597,11 @@ function closePopup() {
 }
 
 
-/* =====================================================
+/* =========================================================
    INITIALIZE
-   ===================================================== */
+   ========================================================= */
 
 updatePoints();
-
 
 </script>
 
