@@ -1,0 +1,500 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Roma Points ♡</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family: "Trebuchet MS", Arial, sans-serif;
+
+            background:
+                radial-gradient(circle at 20% 20%, #ffd6ec 0%, transparent 25%),
+                radial-gradient(circle at 80% 80%, #dcd0ff 0%, transparent 25%),
+                #fff4fb;
+
+            color: #59415f;
+
+            overflow-x: hidden;
+        }
+
+        /* Floating decorations */
+
+        .decoration {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.7;
+        }
+
+        .star1 {
+            top: 8%;
+            left: 7%;
+            font-size: 28px;
+        }
+
+        .star2 {
+            top: 25%;
+            right: 8%;
+            font-size: 22px;
+        }
+
+        .heart1 {
+            bottom: 15%;
+            left: 8%;
+            font-size: 24px;
+        }
+
+        .heart2 {
+            top: 55%;
+            right: 7%;
+            font-size: 18px;
+        }
+
+        /* Main container */
+
+        .game-screen {
+            position: relative;
+            z-index: 1;
+
+            width: min(900px, 92%);
+
+            margin: 35px auto;
+
+            padding: 35px;
+
+            background: rgba(255, 255, 255, 0.82);
+
+            border: 3px solid #f3a6cc;
+
+            border-radius: 30px;
+
+            box-shadow:
+                0 0 0 6px rgba(255, 255, 255, 0.8),
+                0 15px 40px rgba(173, 108, 160, 0.18);
+        }
+
+        /* Header */
+
+        .header {
+            text-align: center;
+        }
+
+        .tiny-title {
+            font-size: 13px;
+            letter-spacing: 4px;
+            color: #b37aa2;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            margin: 0;
+
+            font-size: clamp(30px, 6vw, 55px);
+
+            color: #d65c9b;
+
+            text-shadow:
+                2px 2px 0 #ffffff,
+                4px 4px 0 #f5bddb;
+        }
+
+        .subtitle {
+            margin-top: 12px;
+
+            font-size: 15px;
+
+            color: #8b6687;
+        }
+
+        .sparkles {
+            color: #d990bd;
+            letter-spacing: 8px;
+            margin: 15px 0;
+        }
+
+        /* Player card */
+
+        .player-card {
+
+            margin: 30px auto;
+
+            max-width: 500px;
+
+            padding: 25px;
+
+            text-align: center;
+
+            background: linear-gradient(
+                135deg,
+                #fff,
+                #fff0f8
+            );
+
+            border: 2px solid #f1afd0;
+
+            border-radius: 22px;
+
+            box-shadow:
+                inset 0 0 20px rgba(235, 155, 197, 0.12),
+                0 8px 20px rgba(180, 110, 160, 0.12);
+        }
+
+        .player-name {
+
+            font-size: 13px;
+
+            letter-spacing: 3px;
+
+            color: #a26f93;
+        }
+
+        .points {
+
+            margin: 10px 0 2px;
+
+            font-size: 65px;
+
+            font-weight: bold;
+
+            color: #db5797;
+
+            text-shadow: 2px 3px 0 #f7c8df;
+        }
+
+        .points-label {
+
+            font-size: 15px;
+
+            letter-spacing: 2px;
+
+            color: #8d6685;
+        }
+
+        .available {
+
+            margin-top: 8px;
+
+            font-size: 11px;
+
+            color: #b3839f;
+        }
+
+        /* Menu */
+
+        .menu {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
+
+            gap: 15px;
+
+            margin-top: 30px;
+        }
+
+        .menu-button {
+
+            display: block;
+
+            padding: 17px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            color: #704b69;
+
+            font-weight: bold;
+
+            background: #fff;
+
+            border: 2px solid #efb2d0;
+
+            border-radius: 18px;
+
+            box-shadow: 0 5px 0 #e3a0c2;
+
+            transition: 0.15s;
+        }
+
+        .menu-button:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 8px 0 #e3a0c2;
+
+            background: #fff7fc;
+        }
+
+        .menu-button:active {
+
+            transform: translateY(2px);
+
+            box-shadow: 0 3px 0 #e3a0c2;
+        }
+
+        /* Recent points */
+
+        .section-title {
+
+            margin-top: 45px;
+
+            margin-bottom: 18px;
+
+            text-align: center;
+
+            font-size: 18px;
+
+            color: #ca6399;
+
+            letter-spacing: 2px;
+        }
+
+        .points-list {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+        .point-entry {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 15px 18px;
+
+            background: white;
+
+            border: 1px solid #f0c3da;
+
+            border-radius: 15px;
+        }
+
+        .point-number {
+
+            min-width: 65px;
+
+            font-weight: bold;
+
+            color: #d85a96;
+        }
+
+        .point-reason {
+
+            font-size: 14px;
+
+            color: #74576f;
+        }
+
+        /* Footer */
+
+        footer {
+
+            margin-top: 40px;
+
+            text-align: center;
+
+            font-size: 12px;
+
+            color: #b48ca7;
+
+            letter-spacing: 1px;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .game-screen {
+                padding: 22px;
+                margin: 20px auto;
+            }
+
+            .points {
+                font-size: 52px;
+            }
+
+            .point-entry {
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Decorative elements -->
+
+    <div class="decoration star1">✦</div>
+    <div class="decoration star2">✧</div>
+    <div class="decoration heart1">♡</div>
+    <div class="decoration heart2">♥</div>
+
+
+    <main class="game-screen">
+
+        <!-- Header -->
+
+        <header class="header">
+
+            <div class="tiny-title">
+                ROMA POINTS SYSTEM
+            </div>
+
+            <h1>
+                ♡ Welcome, Player 01 ♡
+            </h1>
+
+            <div class="sparkles">
+                ✦ ✧ ✦ ✧ ✦
+            </div>
+
+            <p class="subtitle">
+                Your little reward world awaits...
+            </p>
+
+        </header>
+
+
+        <!-- Player information -->
+
+        <section class="player-card">
+
+            <div class="player-name">
+                PLAYER 01 · TOMI
+            </div>
+
+            <div class="points">
+                ⭐ 50
+            </div>
+
+            <div class="points-label">
+                ROMA POINTS
+            </div>
+
+            <div class="available">
+                AVAILABLE TO REDEEM
+            </div>
+
+        </section>
+
+
+        <!-- Main menu -->
+
+        <nav class="menu">
+
+            <a href="#" class="menu-button">
+                🎁 Reward Shop
+            </a>
+
+            <a href="#" class="menu-button">
+                🎟️ My Cards
+            </a>
+
+            <a href="#" class="menu-button">
+                💌 Special
+            </a>
+
+            <a href="#" class="menu-button">
+                📜 History
+            </a>
+
+        </nav>
+
+
+        <!-- Recent points -->
+
+        <h2 class="section-title">
+            ✦ RECENT ROMA POINTS ✦
+        </h2>
+
+
+        <section class="points-list">
+
+            <div class="point-entry">
+
+                <div class="point-number">
+                    +10 ⭐
+                </div>
+
+                <div class="point-reason">
+                    For walking me home
+                </div>
+
+            </div>
+
+
+            <div class="point-entry">
+
+                <div class="point-number">
+                    +20 ⭐
+                </div>
+
+                <div class="point-reason">
+                    For waiting an hour for me to get to the date
+                </div>
+
+            </div>
+
+
+            <div class="point-entry">
+
+                <div class="point-number">
+                    +10 ⭐
+                </div>
+
+                <div class="point-reason">
+                    For listening to me yap about my psychiatric treatment
+                </div>
+
+            </div>
+
+
+            <div class="point-entry">
+
+                <div class="point-number">
+                    +10 ⭐
+                </div>
+
+                <div class="point-reason">
+                    For being cute
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+            Made with ♡ for Player 01
+        </footer>
+
+    </main>
+
+</body>
+
+</html>
+```
