@@ -9,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -28,6 +29,7 @@ body::before {
     position: fixed;
     inset: 0;
     pointer-events: none;
+
     background: repeating-linear-gradient(
         to bottom,
         rgba(255,255,255,.025) 0px,
@@ -35,6 +37,7 @@ body::before {
         transparent 2px,
         transparent 4px
     );
+
     z-index: 999;
 }
 
@@ -259,46 +262,192 @@ button:disabled {
     margin-bottom: 8px;
 }
 
+
+/* =========================
+   ADMIN PANEL
+========================= */
+
+.admin-panel {
+    border: 1px solid #ff2fa8;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,47,168,.06),
+            rgba(0,0,0,.95)
+        );
+
+    padding: 22px;
+
+    margin-top: 40px;
+
+    box-shadow:
+        0 0 25px rgba(255,47,168,.12);
+}
+
+.admin-warning {
+    color: #666;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.admin-balance {
+    border: 1px solid #444;
+    background: #0b0b0b;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.admin-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.admin-buttons button {
+    margin-top: 0;
+}
+
+.admin-input {
+    margin-top: 15px;
+}
+
+.admin-input label {
+    display: block;
+    color: #888;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 7px;
+}
+
+.admin-input input {
+    width: min(100%, 500px);
+    padding: 11px;
+
+    background: #080808;
+
+    border: 1px solid #444;
+
+    color: white;
+
+    font-family: "Courier New", monospace;
+
+    outline: none;
+}
+
+.admin-input input:focus {
+    border-color: #ff2fa8;
+}
+
+.admin-submit {
+    margin-top: 18px !important;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media(max-width:700px) {
+
     .hud {
         grid-template-columns: 1fr;
     }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .container {
+        width: 94%;
+    }
+
 }
+
 </style>
 </head>
 
+
 <body>
+
 
 <div class="container">
 
-    <div class="header">
-        <div class="system">SYSTEM ONLINE // MEMORY CARD SLOT 01</div>
 
-        <h1>PLAYER DATABASE</h1>
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <div class="header">
+
+        <div class="system">
+            SYSTEM ONLINE // MEMORY CARD SLOT 01
+        </div>
+
+        <h1>
+            PLAYER DATABASE
+        </h1>
 
         <div class="subtitle">
-            PLAYER 01 · <span id="playerName">LOADING...</span>
+            PLAYER 01 ·
+            <span id="playerName">
+                LOADING...
+            </span>
         </div>
+
     </div>
+
+
+    <!-- =========================
+         HUD
+    ========================= -->
 
     <div class="hud">
 
         <div class="hud-box">
-            <div class="label">CURRENT RP</div>
-            <div class="value" id="points">--</div>
+
+            <div class="label">
+                CURRENT RP
+            </div>
+
+            <div class="value" id="points">
+                --
+            </div>
+
         </div>
 
-        <div class="hud-box">
-            <div class="label">PLAYER STATUS</div>
-            <div class="value">ONLINE</div>
-        </div>
 
         <div class="hud-box">
-            <div class="label">MEMORY SLOT</div>
-            <div class="value">01</div>
+
+            <div class="label">
+                PLAYER STATUS
+            </div>
+
+            <div class="value">
+                ONLINE
+            </div>
+
+        </div>
+
+
+        <div class="hud-box">
+
+            <div class="label">
+                MEMORY SLOT
+            </div>
+
+            <div class="value">
+                01
+            </div>
+
         </div>
 
     </div>
+
+
+    <!-- =========================
+         MY CARDS
+    ========================= -->
 
     <div class="section">
 
@@ -311,15 +460,30 @@ button:disabled {
         </p>
 
         <div class="progress">
-            <div class="progress-fill" id="progress"></div>
+
+            <div
+                class="progress-fill"
+                id="progress">
+            </div>
+
         </div>
 
         <p style="color:#aaa;font-size:12px;">
-            <span id="pointsSmall">--</span> RP AVAILABLE
+
+            <span id="pointsSmall">
+                --
+            </span>
+
+            RP AVAILABLE
+
         </p>
 
     </div>
 
+
+    <!-- =========================
+         REWARD SHOP
+    ========================= -->
 
     <div class="section">
 
@@ -327,12 +491,22 @@ button:disabled {
             🎁 REWARD SHOP
         </div>
 
-        <div id="rewards" class="cards">
-            <div class="loading">LOADING REWARDS...</div>
+        <div
+            id="rewards"
+            class="cards">
+
+            <div class="loading">
+                LOADING REWARDS...
+            </div>
+
         </div>
 
     </div>
 
+
+    <!-- =========================
+         SPECIAL
+    ========================= -->
 
     <div class="section">
 
@@ -359,6 +533,10 @@ button:disabled {
     </div>
 
 
+    <!-- =========================
+         HISTORY
+    ========================= -->
+
     <div class="section">
 
         <div class="section-title">
@@ -366,27 +544,154 @@ button:disabled {
         </div>
 
         <div id="history">
-            <div class="loading">LOADING HISTORY...</div>
+
+            <div class="loading">
+                LOADING HISTORY...
+            </div>
+
         </div>
 
     </div>
 
+
+    <!-- =========================
+         ROMA ADMIN PANEL
+    ========================= -->
+
+    <div class="admin-panel">
+
+        <div class="section-title">
+            🔐 ROMA // ADMIN TERMINAL
+        </div>
+
+        <div class="admin-warning">
+            PRIVATE CONTROL SYSTEM // PLAYER 01
+        </div>
+
+
+        <div class="admin-balance">
+
+            <div class="label">
+                TOMI CURRENT BALANCE
+            </div>
+
+            <div
+                class="value"
+                id="adminPoints">
+
+                --
+
+            </div>
+
+        </div>
+
+
+        <div class="label">
+            QUICK AWARD
+        </div>
+
+
+        <div class="admin-buttons">
+
+            <button onclick="addPoints(1)">
+                +1 RP
+            </button>
+
+            <button onclick="addPoints(5)">
+                +5 RP
+            </button>
+
+            <button onclick="addPoints(10)">
+                +10 RP
+            </button>
+
+            <button onclick="addPoints(20)">
+                +20 RP
+            </button>
+
+            <button onclick="addPoints(50)">
+                +50 RP
+            </button>
+
+        </div>
+
+
+        <div class="admin-input">
+
+            <label>
+                CUSTOM AMOUNT
+            </label>
+
+            <input
+                id="customAmount"
+                type="number"
+                min="1"
+                placeholder="ENTER RP AMOUNT"
+            >
+
+        </div>
+
+
+        <div class="admin-input">
+
+            <label>
+                REASON
+            </label>
+
+            <input
+                id="pointReason"
+                type="text"
+                placeholder="WHY DID TOMI EARN THESE RP?"
+            >
+
+        </div>
+
+
+        <button
+            class="admin-submit"
+            onclick="addCustomPoints()">
+
+            AWARD RP
+
+        </button>
+
+    </div>
+
+
 </div>
 
 
-<div id="message" class="message">
-    <div class="message-title">SYSTEM MESSAGE</div>
+<!-- =========================
+     SYSTEM MESSAGE
+========================= -->
+
+<div
+    id="message"
+    class="message">
+
+    <div class="message-title">
+        SYSTEM MESSAGE
+    </div>
+
     <div id="messageText"></div>
+
 </div>
 
 
 <script>
 
+
+/* =========================
+   SUPABASE CONNECTION
+========================= */
+
 const SUPABASE_URL =
     "https://iqpvqxtdulizcbrjdwyr.supabase.co";
 
+
 const SUPABASE_KEY =
     "sb_publishable_Vn0xQU9GSeXKIBVCDUxMLQ_0llRu1Fp";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -396,164 +701,275 @@ const supabaseClient =
 
 
 let player = null;
+
 let rewards = [];
 
 
-/* -------------------------
+/* =========================
    LOAD PLAYER
-------------------------- */
+========================= */
 
 async function loadPlayer() {
 
-    const { data, error } = await supabaseClient
+    const { data, error } =
+        await supabaseClient
+
         .from("players")
-        .select("id, username, display_name, points")
-        .eq("username", "tomi_01")
+
+        .select(
+            "id, username, display_name, points"
+        )
+
+        .eq(
+            "username",
+            "tomi_01"
+        )
+
         .single();
 
+
     if (error) {
+
         console.error(error);
-        showMessage("ERROR LOADING PLAYER DATA.");
+
+        showMessage(
+            "ERROR LOADING PLAYER DATA."
+        );
+
         return;
     }
 
+
     player = data;
 
-    document.getElementById("playerName").textContent =
+
+    document
+        .getElementById("playerName")
+        .textContent =
         player.display_name;
+
 
     updatePoints();
 
+
     await loadRewards();
+
+
     await loadHistory();
+
 }
 
 
-/* -------------------------
+/* =========================
    UPDATE POINTS
-------------------------- */
+========================= */
 
 function updatePoints() {
 
-    document.getElementById("points").textContent =
+
+    document
+        .getElementById("points")
+        .textContent =
         player.points + " RP";
 
-    document.getElementById("pointsSmall").textContent =
+
+    document
+        .getElementById("pointsSmall")
+        .textContent =
         player.points;
 
-    /*
-       Visual progress bar.
-       100 RP = full bar.
-    */
+
+    document
+        .getElementById("adminPoints")
+        .textContent =
+        player.points + " RP";
+
 
     const percentage =
-        Math.min((player.points / 100) * 100, 100);
+        Math.min(
+            (player.points / 100) * 100,
+            100
+        );
 
-    document.getElementById("progress").style.width =
+
+    document
+        .getElementById("progress")
+        .style.width =
         percentage + "%";
+
 }
 
 
-/* -------------------------
+/* =========================
    LOAD REWARDS
-------------------------- */
+========================= */
 
 async function loadRewards() {
 
-    const { data, error } = await supabaseClient
+
+    const { data, error } =
+        await supabaseClient
+
         .from("rewards")
-        .select("id, name, description, cost, active")
-        .eq("active", true)
-        .order("id");
+
+        .select(
+            "id, name, description, cost, active"
+        )
+
+        .eq(
+            "active",
+            true
+        )
+
+        .order(
+            "id"
+        );
+
 
     if (error) {
 
         console.error(error);
 
-        document.getElementById("rewards").innerHTML =
+        document
+            .getElementById("rewards")
+            .innerHTML =
             "<div class='loading'>ERROR LOADING REWARDS.</div>";
 
         return;
     }
 
+
     rewards = data;
 
+
     renderRewards();
+
 }
 
 
-/* -------------------------
+/* =========================
    RENDER REWARDS
-------------------------- */
+========================= */
 
 function renderRewards() {
 
+
     const container =
-        document.getElementById("rewards");
+        document.getElementById(
+            "rewards"
+        );
+
 
     container.innerHTML = "";
 
-    rewards.forEach(reward => {
 
-        const unlocked =
-            player.points >= reward.cost;
+    rewards.forEach(
+        reward => {
 
-        const card =
-            document.createElement("div");
 
-        card.className =
-            "card " + (unlocked ? "" : "locked");
+            const unlocked =
+                player.points >=
+                reward.cost;
 
-        card.innerHTML = `
 
-            <h3>${reward.name}</h3>
+            const card =
+                document.createElement(
+                    "div"
+                );
 
-            <p>
-                ${reward.description}
-            </p>
 
-            <div class="cost">
-                ${reward.cost} RP
-            </div>
+            card.className =
+                "card " +
+                (
+                    unlocked
+                    ? ""
+                    : "locked"
+                );
 
-            ${
-                unlocked
 
-                ?
+            card.innerHTML = `
 
-                `<button onclick="redeemReward(${reward.id})">
-                    REDEEM
-                </button>`
+                <h3>
+                    ${reward.name}
+                </h3>
 
-                :
+                <p>
+                    ${reward.description}
+                </p>
 
-                `<button disabled>
-                    ${reward.cost - player.points} MORE RP REQUIRED
-                </button>`
-            }
+                <div class="cost">
+                    ${reward.cost} RP
+                </div>
 
-        `;
+                ${
+                    unlocked
 
-        container.appendChild(card);
+                    ?
 
-    });
+                    `
+                    <button
+                        onclick="redeemReward(${reward.id})">
+
+                        REDEEM
+
+                    </button>
+                    `
+
+                    :
+
+                    `
+                    <button disabled>
+
+                        ${
+                            reward.cost -
+                            player.points
+                        }
+
+                        MORE RP REQUIRED
+
+                    </button>
+                    `
+                }
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
 }
 
 
-/* -------------------------
+/* =========================
    REDEEM REWARD
-------------------------- */
+========================= */
 
-async function redeemReward(rewardId) {
+async function redeemReward(
+    rewardId
+) {
+
 
     const reward =
-        rewards.find(r => r.id === rewardId);
+        rewards.find(
+            r => r.id === rewardId
+        );
+
 
     if (!reward) return;
 
-    if (player.points < reward.cost) {
 
-        showMessage("NOT ENOUGH ROMA POINTS.");
+    if (
+        player.points <
+        reward.cost
+    ) {
+
+        showMessage(
+            "NOT ENOUGH ROMA POINTS."
+        );
 
         return;
     }
@@ -564,6 +980,7 @@ async function redeemReward(rewardId) {
             `Redeem "${reward.name}" for ${reward.cost} RP?`
         );
 
+
     if (!confirmed) return;
 
 
@@ -571,7 +988,8 @@ async function redeemReward(rewardId) {
         await supabaseClient.rpc(
             "redeem_reward",
             {
-                p_reward_id: rewardId
+                p_reward_id:
+                    rewardId
             }
         );
 
@@ -581,14 +999,18 @@ async function redeemReward(rewardId) {
         console.error(error);
 
         showMessage(
-            "REDEMPTION ERROR: " + error.message
+            "REDEMPTION ERROR: " +
+            error.message
         );
 
         return;
     }
 
 
-    if (!data || !data.success) {
+    if (
+        !data ||
+        !data.success
+    ) {
 
         showMessage(
             "REDEMPTION FAILED."
@@ -604,37 +1026,64 @@ async function redeemReward(rewardId) {
 
     updatePoints();
 
+
     renderRewards();
+
 
     await loadHistory();
 
 
     showMessage(
-        `REWARD UNLOCKED: ${data.reward}<br><br>
-         ${data.cost} RP deducted.<br>
-         Remaining balance: ${data.remaining_points} RP`
+        `
+        REWARD UNLOCKED:
+
+        ${data.reward}
+
+        <br><br>
+
+        ${data.cost} RP deducted.
+
+        <br>
+
+        Remaining balance:
+        ${data.remaining_points} RP
+        `
     );
 
 }
 
 
-/* -------------------------
+/* =========================
    LOAD HISTORY
-------------------------- */
+========================= */
 
 async function loadHistory() {
+
 
     if (!player) return;
 
 
     const { data, error } =
         await supabaseClient
+
         .from("point_history")
-        .select("amount, reason, created_at")
-        .eq("player_id", player.id)
-        .order("created_at", {
-            ascending: false
-        })
+
+        .select(
+            "amount, reason, created_at"
+        )
+
+        .eq(
+            "player_id",
+            player.id
+        )
+
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        )
+
         .limit(30);
 
 
@@ -642,7 +1091,9 @@ async function loadHistory() {
 
         console.error(error);
 
-        document.getElementById("history").innerHTML =
+        document
+            .getElementById("history")
+            .innerHTML =
             "<div class='loading'>ERROR LOADING HISTORY.</div>";
 
         return;
@@ -650,12 +1101,18 @@ async function loadHistory() {
 
 
     const container =
-        document.getElementById("history");
+        document.getElementById(
+            "history"
+        );
+
 
     container.innerHTML = "";
 
 
-    if (!data || data.length === 0) {
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
         container.innerHTML =
             "<div class='loading'>NO QUEST DATA YET.</div>";
@@ -664,68 +1121,299 @@ async function loadHistory() {
     }
 
 
-    data.forEach(item => {
-
-        const div =
-            document.createElement("div");
-
-        div.className =
-            "history-item";
+    data.forEach(
+        item => {
 
 
-        const sign =
-            item.amount > 0 ? "+" : "";
+            const div =
+                document.createElement(
+                    "div"
+                );
 
 
-        div.innerHTML = `
-
-            <div class="amount">
-                ${sign}${item.amount} RP
-            </div>
-
-            <div class="reason">
-                ${item.reason}
-            </div>
-
-        `;
+            div.className =
+                "history-item";
 
 
-        container.appendChild(div);
+            const sign =
+                item.amount > 0
+                ? "+"
+                : "";
 
-    });
+
+            div.innerHTML = `
+
+                <div class="amount">
+
+                    ${sign}
+                    ${item.amount}
+                    RP
+
+                </div>
+
+                <div class="reason">
+
+                    ${item.reason}
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                div
+            );
+
+        }
+    );
 
 }
 
 
-/* -------------------------
-   SYSTEM MESSAGE
-------------------------- */
+/* =========================
+   ADD POINTS
+========================= */
 
-function showMessage(text) {
+async function addPoints(
+    amount
+) {
+
+
+    const reasonInput =
+        document.getElementById(
+            "pointReason"
+        );
+
+
+    let reason =
+        reasonInput.value.trim();
+
+
+    if (!reason) {
+
+        reason =
+            "ROMA AWARD";
+
+    }
+
+
+    await awardPoints(
+        amount,
+        reason
+    );
+
+}
+
+
+/* =========================
+   CUSTOM POINTS
+========================= */
+
+async function addCustomPoints() {
+
+
+    const amount =
+        parseInt(
+            document
+                .getElementById(
+                    "customAmount"
+                )
+                .value
+        );
+
+
+    const reason =
+        document
+            .getElementById(
+                "pointReason"
+            )
+            .value
+            .trim();
+
+
+    if (
+        !amount ||
+        amount <= 0
+    ) {
+
+        showMessage(
+            "INVALID RP AMOUNT."
+        );
+
+        return;
+    }
+
+
+    if (!reason) {
+
+        showMessage(
+            "PLEASE ENTER A REASON."
+        );
+
+        return;
+    }
+
+
+    await awardPoints(
+        amount,
+        reason
+    );
+
+}
+
+
+/* =========================
+   AWARD POINTS
+========================= */
+
+async function awardPoints(
+    amount,
+    reason
+) {
+
+
+    const confirmed =
+        confirm(
+            `Award ${amount} RP to Tomi?`
+        );
+
+
+    if (!confirmed) return;
+
+
+    const { data, error } =
+        await supabaseClient.rpc(
+            "add_points",
+            {
+                p_amount:
+                    amount,
+
+                p_reason:
+                    reason
+            }
+        );
+
+
+    if (error) {
+
+        console.error(error);
+
+        showMessage(
+            "ADMIN ERROR: " +
+            error.message
+        );
+
+        return;
+    }
+
+
+    if (
+        !data ||
+        !data.success
+    ) {
+
+        showMessage(
+            "POINT AWARD FAILED."
+        );
+
+        return;
+    }
+
+
+    player.points =
+        data.new_balance;
+
+
+    updatePoints();
+
+
+    renderRewards();
+
+
+    await loadHistory();
+
+
+    showMessage(
+        `
+        +${amount} RP AWARDED.
+
+        <br><br>
+
+        Reason:
+        ${reason}
+
+        <br><br>
+
+        New balance:
+        ${data.new_balance} RP
+        `
+    );
+
+
+    document
+        .getElementById(
+            "customAmount"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "pointReason"
+        )
+        .value = "";
+
+}
+
+
+/* =========================
+   SYSTEM MESSAGE
+========================= */
+
+function showMessage(
+    text
+) {
+
 
     const box =
-        document.getElementById("message");
+        document.getElementById(
+            "message"
+        );
 
-    document.getElementById("messageText").innerHTML =
+
+    document
+        .getElementById(
+            "messageText"
+        )
+        .innerHTML =
         text;
 
-    box.classList.add("show");
+
+    box.classList.add(
+        "show"
+    );
 
 
-    setTimeout(() => {
+    setTimeout(
+        () => {
 
-        box.classList.remove("show");
+            box.classList.remove(
+                "show"
+            );
 
-    }, 5000);
+        },
+        5000
+    );
 
 }
 
 
-/* -------------------------
+/* =========================
    START
-------------------------- */
+========================= */
 
 loadPlayer();
+
 
 </script>
 
