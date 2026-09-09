@@ -1,693 +1,1196 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PLAYER DATABASE // TOMI</title>
+<title>ROMA POINTS // PLAYER DATABASE</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
+/* =========================================================
+   BASE
+========================================================= */
+
 * {
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     margin: 0;
     background:
-        radial-gradient(circle at 50% 20%, #241329 0%, #090909 45%, #050505 100%);
-    color: #f5f5f5;
+        radial-gradient(circle at top, #170012 0%, #080008 45%, #020202 100%);
+    color: #e8e8e8;
     font-family: "Courier New", monospace;
     min-height: 100vh;
     overflow-x: hidden;
 }
+
+/* CRT scanlines */
 
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
+    z-index: 9999;
 
-    background: repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,.025) 0px,
-        rgba(255,255,255,.025) 1px,
-        transparent 2px,
-        transparent 4px
-    );
-
-    z-index: 999;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.025) 0px,
+            rgba(255,255,255,0.025) 1px,
+            transparent 1px,
+            transparent 4px
+        );
 }
+
+/* subtle pink glow */
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+
+    box-shadow:
+        inset 0 0 120px rgba(255, 0, 150, .08);
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
 
 .container {
-    width: min(1050px, 92%);
-    margin: auto;
-    padding: 30px 0 60px;
+    width: min(1000px, 92%);
+    margin: 0 auto;
+    padding: 35px 0 70px;
 }
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 .header {
-    border: 1px solid #ff2fa8;
+    border: 1px solid #333;
+    background: rgba(10, 10, 10, .92);
     padding: 25px;
-    background: rgba(15,15,15,.9);
-    box-shadow: 0 0 25px rgba(255,47,168,.25);
     margin-bottom: 20px;
+
+    box-shadow:
+        0 0 25px rgba(255, 0, 150, .08);
 }
 
-.system {
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.system-title {
     color: #ff2fa8;
-    font-size: 12px;
+    font-size: 22px;
+    font-weight: bold;
     letter-spacing: 3px;
+    text-shadow:
+        0 0 8px rgba(255,47,168,.6);
 }
 
-h1 {
-    margin: 10px 0;
-    font-size: clamp(28px, 6vw, 55px);
-    letter-spacing: 5px;
-    text-shadow: 4px 4px #6d1b55;
+.player-id {
+    color: #888;
+    font-size: 12px;
+    letter-spacing: 2px;
 }
 
-.subtitle {
-    color: #aaa;
-    font-size: 13px;
+.player-name {
+    margin-top: 18px;
+    font-size: 14px;
+    color: #ddd;
 }
+
+.player-name span {
+    color: #ff2fa8;
+}
+
+
+/* =========================================================
+   HUD
+========================================================= */
 
 .hud {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 25px;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .hud-box {
-    border: 1px solid #444;
-    background: #101010;
+    border: 1px solid #333;
     padding: 15px;
+    background: #090909;
 }
 
-.label {
+.hud-label {
     font-size: 10px;
-    color: #888;
+    color: #777;
     letter-spacing: 2px;
+    margin-bottom: 8px;
 }
 
-.value {
+.hud-value {
     color: #ff2fa8;
-    font-size: 25px;
+    font-size: 18px;
     font-weight: bold;
-    margin-top: 6px;
 }
+
+.online {
+    color: #7dff9a;
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
 
 .section {
-    border: 1px solid #333;
-    background: rgba(12,12,12,.95);
-    padding: 22px;
-    margin-bottom: 22px;
+    margin-top: 20px;
+    border: 1px solid #2d2d2d;
+    background: rgba(8,8,8,.95);
 }
 
 .section-title {
+    padding: 14px 18px;
+    border-bottom: 1px solid #2d2d2d;
+
     color: #ff2fa8;
+    font-size: 12px;
     letter-spacing: 3px;
-    margin-bottom: 18px;
-    font-weight: bold;
-}
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 15px;
-}
-
-.card {
-    border: 1px solid #444;
     background:
-        linear-gradient(135deg, #171717, #0c0c0c);
+        linear-gradient(
+            90deg,
+            rgba(255,47,168,.08),
+            transparent
+        );
+}
+
+.section-content {
     padding: 20px;
-    min-height: 150px;
-    position: relative;
-    transition: .2s;
 }
 
-.card:hover {
-    border-color: #ff2fa8;
-    transform: translateY(-3px);
-    box-shadow: 0 0 18px rgba(255,47,168,.18);
-}
 
-.card::after {
-    content: "RP";
-    position: absolute;
-    right: 12px;
-    top: 10px;
-    color: #ff2fa8;
+/* =========================================================
+   INVENTORY
+========================================================= */
+
+.inventory-status {
+    display: flex;
+    justify-content: space-between;
     font-size: 11px;
-}
-
-.card h3 {
-    margin-top: 0;
-    color: white;
-}
-
-.card p {
-    color: #aaa;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.cost {
-    color: #ff2fa8;
-    font-weight: bold;
-    margin-top: 15px;
-}
-
-button {
-    border: 1px solid #ff2fa8;
-    background: #170d14;
-    color: #ff2fa8;
-    padding: 10px 15px;
-    font-family: inherit;
-    cursor: pointer;
-    margin-top: 12px;
-}
-
-button:hover {
-    background: #ff2fa8;
-    color: #080808;
-}
-
-button:disabled {
-    border-color: #444;
-    color: #666;
-    background: #111;
-    cursor: not-allowed;
-}
-
-.locked {
-    opacity: .45;
+    color: #888;
+    margin-bottom: 10px;
 }
 
 .progress {
     width: 100%;
     height: 12px;
-    background: #222;
     border: 1px solid #444;
-    margin-top: 12px;
+    background: #050505;
 }
 
-.progress-fill {
-    height: 100%;
+.progress-bar {
     width: 0%;
+    height: 100%;
     background: #ff2fa8;
-    box-shadow: 0 0 10px #ff2fa8;
-    transition: width .5s;
+
+    box-shadow:
+        0 0 10px rgba(255,47,168,.5);
+
+    transition: width .5s ease;
 }
 
-.history-item {
-    border-left: 2px solid #ff2fa8;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    background: #101010;
+
+/* =========================================================
+   REWARD SHOP
+========================================================= */
+
+.reward-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
 }
 
-.history-item .amount {
-    color: #ff2fa8;
-    font-weight: bold;
-}
-
-.history-item .reason {
-    color: #ccc;
-    font-size: 13px;
-    margin-top: 4px;
-}
-
-.special {
-    text-align: center;
-    padding: 30px;
-    border: 1px dashed #ff2fa8;
-    background: linear-gradient(135deg, #150b13, #090909);
-}
-
-.special-title {
-    color: #ff2fa8;
-    font-size: 20px;
-    letter-spacing: 3px;
-}
-
-.loading {
-    color: #888;
-    text-align: center;
-    padding: 30px;
-}
-
-.message {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: #111;
-    border: 1px solid #ff2fa8;
+.reward-card {
+    border: 1px solid #333;
     padding: 18px;
-    max-width: 320px;
-    display: none;
-    z-index: 1000;
-    box-shadow: 0 0 25px rgba(255,47,168,.3);
+    background: #0b0b0b;
+
+    transition:
+        transform .15s ease,
+        border-color .15s ease,
+        box-shadow .15s ease;
 }
 
-.message.show {
-    display: block;
+.reward-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #ff2fa8;
+
+    box-shadow:
+        0 0 18px rgba(255,47,168,.12);
 }
 
-.message-title {
+.reward-name {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.reward-cost {
     color: #ff2fa8;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.reward-description {
+    color: #888;
+    font-size: 11px;
+    line-height: 1.6;
+    min-height: 38px;
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+    font-family: "Courier New", monospace;
+}
+
+.redeem-button,
+.admin-button {
+    border: 1px solid #ff2fa8;
+    background: #10070d;
+    color: #ff2fa8;
+
+    padding: 9px 13px;
+
+    font-size: 10px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: .15s ease;
+}
+
+.redeem-button:hover,
+.admin-button:hover {
+    background: #ff2fa8;
+    color: #080008;
+
+    box-shadow:
+        0 0 14px rgba(255,47,168,.4);
+}
+
+.redeem-button:disabled {
+    border-color: #444;
+    color: #555;
+    background: #090909;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   QUEST BOARD
+========================================================= */
+
+.quest-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.quest {
+    position: relative;
+
+    border: 1px solid #333;
+    background: #090909;
+
+    padding: 18px;
+
+    min-height: 145px;
+
+    transition: .15s ease;
+}
+
+.quest:hover {
+    border-color: #ff2fa8;
+
+    box-shadow:
+        0 0 15px rgba(255,47,168,.1);
+}
+
+.quest-status {
+    font-size: 9px;
+    color: #777;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.quest-name {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
     margin-bottom: 8px;
 }
 
+.quest-description {
+    color: #888;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
 
-/* =========================
-   ADMIN PANEL
-========================= */
+.quest-reward {
+    color: #ff2fa8;
+    font-size: 12px;
+    font-weight: bold;
+}
 
-.admin-panel {
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    border: 1px solid #252525;
+    background: #080808;
+
+    padding: 12px;
+}
+
+.history-reason {
+    color: #aaa;
+    font-size: 11px;
+}
+
+.history-amount {
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.history-positive {
+    color: #7dff9a;
+}
+
+.history-negative {
+    color: #ff4f87;
+}
+
+
+/* =========================================================
+   SYSTEM ACCESS
+========================================================= */
+
+.admin-access {
+    margin-top: 45px;
+    text-align: center;
+    padding: 15px;
+}
+
+.admin-access-button {
+    opacity: .75;
+
+    font-size: 11px;
+    letter-spacing: 2px;
+
+    border: 1px solid #555;
+    color: #777;
+
+    background: #080808;
+
+    padding: 10px 16px;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.admin-access-button:hover {
+    opacity: 1;
+
+    border-color: #ff2fa8;
+    color: #ff2fa8;
+
+    background: #170d14;
+
+    box-shadow:
+        0 0 12px rgba(255,47,168,.25);
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.login-panel {
+    display: none;
+
+    max-width: 500px;
+    margin: 20px auto 0;
+
     border: 1px solid #ff2fa8;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,47,168,.06),
-            rgba(0,0,0,.95)
-        );
+    background: #090909;
 
-    padding: 22px;
-
-    margin-top: 40px;
+    padding: 25px;
 
     box-shadow:
         0 0 25px rgba(255,47,168,.12);
 }
 
-.admin-warning {
-    color: #666;
-    font-size: 11px;
-    letter-spacing: 2px;
+.login-title {
+    color: #ff2fa8;
+    font-size: 12px;
+    letter-spacing: 3px;
     margin-bottom: 20px;
 }
 
-.admin-balance {
-    border: 1px solid #444;
-    background: #0b0b0b;
-    padding: 15px;
-    margin-bottom: 20px;
+.input-group {
+    margin-bottom: 12px;
 }
 
-.admin-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.admin-buttons button {
-    margin-top: 0;
-}
-
-.admin-input {
-    margin-top: 15px;
-}
-
-.admin-input label {
+.input-group label {
     display: block;
-    color: #888;
+
+    color: #777;
     font-size: 10px;
-    letter-spacing: 2px;
-    margin-bottom: 7px;
+    letter-spacing: 1px;
+
+    margin-bottom: 6px;
 }
 
-.admin-input input {
-    width: min(100%, 500px);
-    padding: 11px;
+.input-group input {
+    width: 100%;
 
-    background: #080808;
+    border: 1px solid #333;
+    background: #050505;
 
-    border: 1px solid #444;
+    color: #fff;
 
-    color: white;
+    padding: 10px;
 
     font-family: "Courier New", monospace;
-
-    outline: none;
 }
 
-.admin-input input:focus {
+.input-group input:focus {
+    outline: none;
     border-color: #ff2fa8;
 }
 
-.admin-submit {
-    margin-top: 18px !important;
+
+/* =========================================================
+   ADMIN PANEL
+========================================================= */
+
+.admin-panel {
+    display: none;
+}
+
+.admin-tools {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.admin-box {
+    border: 1px solid #333;
+    padding: 18px;
+    background: #090909;
+}
+
+.admin-box h3 {
+    margin-top: 0;
+
+    color: #ff2fa8;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.admin-box p {
+    color: #777;
+    font-size: 10px;
+}
+
+.admin-box input {
+    width: 100%;
+
+    padding: 9px;
+
+    margin-bottom: 10px;
+
+    background: #050505;
+    border: 1px solid #333;
+
+    color: #fff;
+
+    font-family: "Courier New", monospace;
+}
+
+.admin-box input:focus {
+    outline: none;
+    border-color: #ff2fa8;
+}
+
+.logout-button {
+    margin-top: 15px;
+
+    border: 1px solid #555;
+    background: #080808;
+
+    color: #777;
+
+    padding: 8px 12px;
+
+    font-family: "Courier New", monospace;
+    font-size: 10px;
+
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    border-color: #ff2fa8;
+    color: #ff2fa8;
 }
 
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* =========================================================
+   MESSAGES
+========================================================= */
 
-@media(max-width:700px) {
+.message {
+    position: fixed;
+
+    left: 50%;
+    bottom: 25px;
+
+    transform: translateX(-50%);
+
+    display: none;
+
+    max-width: 90%;
+
+    border: 1px solid #ff2fa8;
+
+    background: #10070d;
+
+    color: #ff2fa8;
+
+    padding: 12px 18px;
+
+    font-size: 11px;
+
+    z-index: 10000;
+
+    box-shadow:
+        0 0 20px rgba(255,47,168,.2);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    margin-top: 35px;
+
+    text-align: center;
+
+    color: #444;
+
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .container {
+        width: 94%;
+        padding-top: 20px;
+    }
+
+    .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
     .hud {
         grid-template-columns: 1fr;
     }
 
-    h1 {
-        font-size: 32px;
+    .reward-grid,
+    .quest-grid,
+    .admin-tools {
+        grid-template-columns: 1fr;
     }
 
-    .container {
-        width: 94%;
+    .system-title {
+        font-size: 18px;
+    }
+
+    .history-item {
+        flex-direction: column;
     }
 
 }
 
 </style>
+
 </head>
 
 
 <body>
 
-
 <div class="container">
 
 
-    <!-- =========================
+    <!-- =====================================================
          HEADER
-    ========================= -->
+    ====================================================== -->
 
-    <div class="header">
+    <header class="header">
 
-        <div class="system">
-            SYSTEM ONLINE // MEMORY CARD SLOT 01
-        </div>
+        <div class="header-top">
 
-        <h1>
-            PLAYER DATABASE
-        </h1>
-
-        <div class="subtitle">
-            PLAYER 01 ·
-            <span id="playerName">
-                LOADING...
-            </span>
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         HUD
-    ========================= -->
-
-    <div class="hud">
-
-        <div class="hud-box">
-
-            <div class="label">
-                CURRENT RP
+            <div class="system-title">
+                PLAYER DATABASE
             </div>
 
-            <div class="value" id="points">
-                --
+            <div class="player-id">
+                SAVE FILE // 01
             </div>
 
         </div>
 
+        <div class="player-name">
+            PLAYER 01 · <span>TOMI</span>
+        </div>
 
-        <div class="hud-box">
 
-            <div class="label">
-                PLAYER STATUS
+        <!-- HUD -->
+
+        <div class="hud">
+
+            <div class="hud-box">
+
+                <div class="hud-label">
+                    CURRENT RP
+                </div>
+
+                <div
+                    class="hud-value"
+                    id="pointsDisplay"
+                >
+                    -- RP
+                </div>
+
             </div>
 
-            <div class="value">
-                ONLINE
+
+            <div class="hud-box">
+
+                <div class="hud-label">
+                    STATUS
+                </div>
+
+                <div class="hud-value online">
+                    ONLINE
+                </div>
+
+            </div>
+
+
+            <div class="hud-box">
+
+                <div class="hud-label">
+                    MEMORY SLOT
+                </div>
+
+                <div class="hud-value">
+                    01
+                </div>
+
             </div>
 
         </div>
 
-
-        <div class="hud-box">
-
-            <div class="label">
-                MEMORY SLOT
-            </div>
-
-            <div class="value">
-                01
-            </div>
-
-        </div>
-
-    </div>
+    </header>
 
 
-    <!-- =========================
-         MY CARDS
-    ========================= -->
 
-    <div class="section">
+    <!-- =====================================================
+         INVENTORY
+    ====================================================== -->
+
+    <section class="section">
 
         <div class="section-title">
-            🎟 MY CARDS // INVENTORY
+            MY CARDS // INVENTORY
         </div>
 
-        <p style="color:#888;font-size:13px;">
-            Current collectible points available for redemption.
-        </p>
+        <div class="section-content">
 
-        <div class="progress">
+            <div class="inventory-status">
 
-            <div
-                class="progress-fill"
-                id="progress">
+                <span>
+                    REWARD CAPACITY
+                </span>
+
+                <span id="inventoryText">
+                    0 / 4
+                </span>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    id="inventoryBar"
+                ></div>
+
             </div>
 
         </div>
 
-        <p style="color:#aaa;font-size:12px;">
-
-            <span id="pointsSmall">
-                --
-            </span>
-
-            RP AVAILABLE
-
-        </p>
-
-    </div>
+    </section>
 
 
-    <!-- =========================
+
+    <!-- =====================================================
          REWARD SHOP
-    ========================= -->
+    ====================================================== -->
 
-    <div class="section">
-
-        <div class="section-title">
-            🎁 REWARD SHOP
-        </div>
-
-        <div
-            id="rewards"
-            class="cards">
-
-            <div class="loading">
-                LOADING REWARDS...
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         SPECIAL
-    ========================= -->
-
-    <div class="section">
+    <section class="section">
 
         <div class="section-title">
-            💌 SPECIAL
+            REWARD SHOP
         </div>
 
-        <div class="special">
-
-            <div class="special-title">
-                NEW QUEST AVAILABLE
-            </div>
-
-            <p style="color:#aaa;">
-                Keep collecting Roma Points.
-            </p>
-
-            <p style="color:#ff2fa8;">
-                Your next reward is waiting.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         HISTORY
-    ========================= -->
-
-    <div class="section">
-
-        <div class="section-title">
-            📜 QUEST LOG // HISTORY
-        </div>
-
-        <div id="history">
-
-            <div class="loading">
-                LOADING HISTORY...
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         ROMA ADMIN PANEL
-    ========================= -->
-
-    <div class="admin-panel">
-
-        <div class="section-title">
-            🔐 ROMA // ADMIN TERMINAL
-        </div>
-
-        <div class="admin-warning">
-            PRIVATE CONTROL SYSTEM // PLAYER 01
-        </div>
-
-
-        <div class="admin-balance">
-
-            <div class="label">
-                TOMI CURRENT BALANCE
-            </div>
+        <div class="section-content">
 
             <div
-                class="value"
-                id="adminPoints">
+                class="reward-grid"
+                id="rewardGrid"
+            >
 
-                --
+                <div style="color:#777;font-size:11px;">
+                    LOADING REWARDS...
+                </div>
 
             </div>
 
         </div>
 
+    </section>
 
-        <div class="label">
-            QUICK AWARD
+
+
+    <!-- =====================================================
+         QUEST BOARD
+    ====================================================== -->
+
+    <section class="section">
+
+        <div class="section-title">
+            QUEST BOARD
+        </div>
+
+        <div class="section-content">
+
+            <div class="quest-grid">
+
+
+                <!-- QUEST 1 -->
+
+                <div class="quest">
+
+                    <div class="quest-status">
+                        SIDE QUEST // AVAILABLE
+                    </div>
+
+                    <div class="quest-name">
+                        PATIENCE.exe
+                    </div>
+
+                    <div class="quest-description">
+                        Wait for Roma.
+                    </div>
+
+                    <div class="quest-reward">
+                        +20 RP
+                    </div>
+
+                </div>
+
+
+                <!-- QUEST 2 -->
+
+                <div class="quest">
+
+                    <div class="quest-status">
+                        SIDE QUEST // AVAILABLE
+                    </div>
+
+                    <div class="quest-name">
+                        YAP MASTER.exe
+                    </div>
+
+                    <div class="quest-description">
+                        Listen to Roma yap.
+                    </div>
+
+                    <div class="quest-reward">
+                        +10 RP
+                    </div>
+
+                </div>
+
+
+                <!-- QUEST 3 -->
+
+                <div class="quest">
+
+                    <div class="quest-status">
+                        SIDE QUEST // AVAILABLE
+                    </div>
+
+                    <div class="quest-name">
+                        CUTE.exe
+                    </div>
+
+                    <div class="quest-description">
+                        Be cute.
+                    </div>
+
+                    <div class="quest-reward">
+                        +10 RP
+                    </div>
+
+                </div>
+
+
+                <!-- QUEST 4 -->
+
+                <div class="quest">
+
+                    <div class="quest-status">
+                        SIDE QUEST // AVAILABLE
+                    </div>
+
+                    <div class="quest-name">
+                        SIDE QUEST.exe
+                    </div>
+
+                    <div class="quest-description">
+                        Buy Roma a coffee.
+                    </div>
+
+                    <div class="quest-reward">
+                        +25 RP
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         HISTORY
+    ====================================================== -->
+
+    <section class="section">
+
+        <div class="section-title">
+            QUEST LOG // HISTORY
+        </div>
+
+        <div class="section-content">
+
+            <div
+                class="history-list"
+                id="historyList"
+            >
+
+                <div style="color:#777;font-size:11px;">
+                    LOADING HISTORY...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SYSTEM ACCESS
+    ====================================================== -->
+
+    <div class="admin-access">
+
+        <button
+            class="admin-access-button"
+            onclick="toggleLogin()"
+        >
+            [ SYSTEM ACCESS ]
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         LOGIN
+    ====================================================== -->
+
+    <div
+        class="login-panel"
+        id="loginPanel"
+    >
+
+        <div class="login-title">
+            ROMA // SYSTEM ACCESS
         </div>
 
 
-        <div class="admin-buttons">
-
-            <button onclick="addPoints(1)">
-                +1 RP
-            </button>
-
-            <button onclick="addPoints(5)">
-                +5 RP
-            </button>
-
-            <button onclick="addPoints(10)">
-                +10 RP
-            </button>
-
-            <button onclick="addPoints(20)">
-                +20 RP
-            </button>
-
-            <button onclick="addPoints(50)">
-                +50 RP
-            </button>
-
-        </div>
-
-
-        <div class="admin-input">
+        <div class="input-group">
 
             <label>
-                CUSTOM AMOUNT
+                EMAIL
             </label>
 
             <input
-                id="customAmount"
-                type="number"
-                min="1"
-                placeholder="ENTER RP AMOUNT"
+                type="email"
+                id="loginEmail"
+                placeholder="ROMA EMAIL"
             >
 
         </div>
 
 
-        <div class="admin-input">
+        <div class="input-group">
 
             <label>
-                REASON
+                PASSWORD
             </label>
 
             <input
-                id="pointReason"
-                type="text"
-                placeholder="WHY DID TOMI EARN THESE RP?"
+                type="password"
+                id="loginPassword"
+                placeholder="PASSWORD"
             >
 
         </div>
 
 
         <button
-            class="admin-submit"
-            onclick="addCustomPoints()">
-
-            AWARD RP
-
+            class="admin-button"
+            onclick="loginRoma()"
+        >
+            LOGIN
         </button>
 
     </div>
 
 
-</div>
+
+    <!-- =====================================================
+         ADMIN PANEL
+    ====================================================== -->
+
+    <section
+        class="section admin-panel"
+        id="adminPanel"
+    >
+
+        <div class="section-title">
+            ROMA // ADMIN PANEL
+        </div>
+
+        <div class="section-content">
+
+            <div class="admin-tools">
 
 
-<!-- =========================
-     SYSTEM MESSAGE
-========================= -->
+                <!-- ADD POINTS -->
 
-<div
-    id="message"
-    class="message">
+                <div class="admin-box">
 
-    <div class="message-title">
-        SYSTEM MESSAGE
+                    <h3>
+                        ADD ROMA POINTS
+                    </h3>
+
+                    <p>
+                        Manually award points to TOMI.
+                    </p>
+
+                    <input
+                        type="number"
+                        id="customAmount"
+                        placeholder="POINT AMOUNT"
+                        min="1"
+                    >
+
+                    <input
+                        type="text"
+                        id="customReason"
+                        placeholder="REASON"
+                    >
+
+                    <button
+                        class="admin-button"
+                        onclick="addCustomPoints()"
+                    >
+                        AWARD POINTS
+                    </button>
+
+                </div>
+
+
+                <!-- QUICK AWARDS -->
+
+                <div class="admin-box">
+
+                    <h3>
+                        QUICK AWARDS
+                    </h3>
+
+                    <p>
+                        Preset quest rewards.
+                    </p>
+
+                    <button
+                        class="admin-button"
+                        onclick="awardPoints(20, 'For waiting for Roma')"
+                    >
+                        +20 PATIENCE
+                    </button>
+
+                    <br><br>
+
+                    <button
+                        class="admin-button"
+                        onclick="awardPoints(10, 'For listening to Roma yap')"
+                    >
+                        +10 YAP MASTER
+                    </button>
+
+                    <br><br>
+
+                    <button
+                        class="admin-button"
+                        onclick="awardPoints(10, 'For being cute')"
+                    >
+                        +10 CUTE
+                    </button>
+
+                    <br><br>
+
+                    <button
+                        class="admin-button"
+                        onclick="awardPoints(25, 'For buying Roma a coffee')"
+                    >
+                        +25 COFFEE
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="logout-button"
+                onclick="logoutRoma()"
+            >
+                LOGOUT ROMA
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <div class="footer">
+
+        ROMA POINTS SYSTEM // PRIVATE DATABASE // 200X
+
     </div>
 
-    <div id="messageText"></div>
 
 </div>
+
+
+<!-- =========================================================
+     MESSAGE
+========================================================== -->
+
+<div
+    class="message"
+    id="message"
+></div>
+
 
 
 <script>
 
-
-/* =========================
-   SUPABASE CONNECTION
-========================= */
+/* =========================================================
+   SUPABASE
+========================================================= */
 
 const SUPABASE_URL =
     "https://iqpvqxtdulizcbrjdwyr.supabase.co";
-
 
 const SUPABASE_KEY =
     "sb_publishable_Vn0xQU9GSeXKIBVCDUxMLQ_0llRu1Fp";
@@ -700,30 +1203,52 @@ const supabaseClient =
     );
 
 
-let player = null;
+/* =========================================================
+   GLOBAL DATA
+========================================================= */
 
-let rewards = [];
+let currentPlayer = null;
+let rewardsData = [];
 
 
-/* =========================
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(text) {
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = text;
+
+    message.style.display = "block";
+
+    setTimeout(() => {
+
+        message.style.display = "none";
+
+    }, 3000);
+
+}
+
+
+/* =========================================================
    LOAD PLAYER
-========================= */
+========================================================= */
 
 async function loadPlayer() {
 
-    const { data, error } =
-        await supabaseClient
+    const {
+        data,
+        error
+    } = await supabaseClient
 
         .from("players")
 
-        .select(
-            "id, username, display_name, points"
-        )
+        .select("*")
 
-        .eq(
-            "username",
-            "tomi_01"
-        )
+        .eq("username", "tomi_01")
 
         .single();
 
@@ -732,266 +1257,273 @@ async function loadPlayer() {
 
         console.error(error);
 
-        showMessage(
-            "ERROR LOADING PLAYER DATA."
-        );
+        document.getElementById(
+            "pointsDisplay"
+        ).textContent = "ERROR";
 
         return;
+
     }
 
 
-    player = data;
-
-
-    document
-        .getElementById("playerName")
-        .textContent =
-        player.display_name;
+    currentPlayer = data;
 
 
     updatePoints();
 
-
-    await loadRewards();
-
-
-    await loadHistory();
-
 }
 
 
-/* =========================
+/* =========================================================
    UPDATE POINTS
-========================= */
+========================================================= */
 
 function updatePoints() {
 
-
-    document
-        .getElementById("points")
-        .textContent =
-        player.points + " RP";
+    if (!currentPlayer) return;
 
 
-    document
-        .getElementById("pointsSmall")
-        .textContent =
-        player.points;
-
-
-    document
-        .getElementById("adminPoints")
-        .textContent =
-        player.points + " RP";
-
-
-    const percentage =
-        Math.min(
-            (player.points / 100) * 100,
-            100
-        );
-
-
-    document
-        .getElementById("progress")
-        .style.width =
-        percentage + "%";
+    document.getElementById(
+        "pointsDisplay"
+    ).textContent =
+        currentPlayer.points + " RP";
 
 }
 
 
-/* =========================
+/* =========================================================
    LOAD REWARDS
-========================= */
+========================================================= */
 
 async function loadRewards() {
 
-
-    const { data, error } =
-        await supabaseClient
+    const {
+        data,
+        error
+    } = await supabaseClient
 
         .from("rewards")
 
-        .select(
-            "id, name, description, cost, active"
-        )
+        .select("*")
 
-        .eq(
-            "active",
-            true
-        )
+        .eq("active", true)
 
-        .order(
-            "id"
-        );
+        .order("cost", {
+            ascending: true
+        });
 
 
     if (error) {
 
         console.error(error);
 
-        document
-            .getElementById("rewards")
-            .innerHTML =
-            "<div class='loading'>ERROR LOADING REWARDS.</div>";
+        document.getElementById(
+            "rewardGrid"
+        ).innerHTML = `
+            <div style="color:#ff4f87;font-size:11px;">
+                ERROR LOADING REWARDS
+            </div>
+        `;
 
         return;
+
     }
 
 
-    rewards = data;
-
+    rewardsData = data || [];
 
     renderRewards();
 
 }
 
 
-/* =========================
+/* =========================================================
    RENDER REWARDS
-========================= */
+========================================================= */
 
 function renderRewards() {
 
-
-    const container =
+    const grid =
         document.getElementById(
-            "rewards"
+            "rewardGrid"
         );
 
 
-    container.innerHTML = "";
+    if (!rewardsData.length) {
+
+        grid.innerHTML = `
+            <div style="color:#777;font-size:11px;">
+                NO REWARDS AVAILABLE
+            </div>
+        `;
+
+        return;
+
+    }
 
 
-    rewards.forEach(
-        reward => {
+    grid.innerHTML =
+        rewardsData.map(reward => {
+
+            const canAfford =
+                currentPlayer &&
+                currentPlayer.points >= reward.cost;
 
 
-            const unlocked =
-                player.points >=
-                reward.cost;
+            return `
 
+                <div class="reward-card">
 
-            const card =
-                document.createElement(
-                    "div"
-                );
+                    <div class="reward-name">
+                        ${escapeHtml(reward.name)}
+                    </div>
 
+                    <div class="reward-cost">
+                        ${reward.cost} RP
+                    </div>
 
-            card.className =
-                "card " +
-                (
-                    unlocked
-                    ? ""
-                    : "locked"
-                );
+                    <div class="reward-description">
+                        ${escapeHtml(
+                            reward.description || ""
+                        )}
+                    </div>
 
-
-            card.innerHTML = `
-
-                <h3>
-                    ${reward.name}
-                </h3>
-
-                <p>
-                    ${reward.description}
-                </p>
-
-                <div class="cost">
-                    ${reward.cost} RP
-                </div>
-
-                ${
-                    unlocked
-
-                    ?
-
-                    `
                     <button
-                        onclick="redeemReward(${reward.id})">
-
-                        REDEEM
-
-                    </button>
-                    `
-
-                    :
-
-                    `
-                    <button disabled>
-
+                        class="redeem-button"
+                        onclick="redeemReward(${reward.id})"
+                        ${canAfford ? "" : "disabled"}
+                    >
                         ${
-                            reward.cost -
-                            player.points
+                            canAfford
+                            ? "REDEEM"
+                            : "NOT ENOUGH RP"
                         }
-
-                        MORE RP REQUIRED
-
                     </button>
-                    `
-                }
+
+                </div>
 
             `;
 
+        }).join("");
 
-            container.appendChild(
-                card
-            );
 
-        }
-    );
+    updateInventory();
 
 }
 
 
-/* =========================
+/* =========================================================
+   INVENTORY
+========================================================= */
+
+function updateInventory() {
+
+    const totalRewards =
+        rewardsData.length || 4;
+
+    const affordableRewards =
+        rewardsData.filter(reward => {
+
+            return currentPlayer &&
+                currentPlayer.points >= reward.cost;
+
+        }).length;
+
+
+    document.getElementById(
+        "inventoryText"
+    ).textContent =
+        affordableRewards +
+        " / " +
+        totalRewards;
+
+
+    const percentage =
+        totalRewards > 0
+            ? (affordableRewards / totalRewards) * 100
+            : 0;
+
+
+    document.getElementById(
+        "inventoryBar"
+    ).style.width =
+        percentage + "%";
+
+}
+
+
+/* =========================================================
    REDEEM REWARD
-========================= */
+========================================================= */
 
 async function redeemReward(
     rewardId
 ) {
 
+    if (!currentPlayer) {
+
+        showMessage(
+            "PLAYER DATA NOT LOADED"
+        );
+
+        return;
+
+    }
+
 
     const reward =
-        rewards.find(
-            r => r.id === rewardId
+        rewardsData.find(
+            item => item.id === rewardId
         );
 
 
-    if (!reward) return;
+    if (!reward) {
+
+        showMessage(
+            "REWARD NOT FOUND"
+        );
+
+        return;
+
+    }
 
 
     if (
-        player.points <
+        currentPlayer.points <
         reward.cost
     ) {
 
         showMessage(
-            "NOT ENOUGH ROMA POINTS."
+            "NOT ENOUGH RP"
         );
 
         return;
+
     }
 
 
     const confirmed =
         confirm(
-            `Redeem "${reward.name}" for ${reward.cost} RP?`
+            "Redeem " +
+            reward.name +
+            " for " +
+            reward.cost +
+            " RP?"
         );
 
 
     if (!confirmed) return;
 
 
-    const { data, error } =
-        await supabaseClient.rpc(
-            "redeem_reward",
-            {
-                p_reward_id:
-                    rewardId
-            }
-        );
+    const {
+        data,
+        error
+    } = await supabaseClient.rpc(
+        "redeem_reward",
+        {
+            p_reward_id: rewardId
+        }
+    );
 
 
     if (error) {
@@ -999,82 +1531,50 @@ async function redeemReward(
         console.error(error);
 
         showMessage(
-            "REDEMPTION ERROR: " +
-            error.message
+            error.message || "REDEEM FAILED"
         );
 
         return;
+
     }
 
 
-    if (
-        !data ||
-        !data.success
-    ) {
-
-        showMessage(
-            "REDEMPTION FAILED."
-        );
-
-        return;
-    }
-
-
-    player.points =
+    currentPlayer.points =
         data.remaining_points;
 
 
     updatePoints();
 
-
     renderRewards();
-
 
     await loadHistory();
 
-
     showMessage(
-        `
-        REWARD UNLOCKED:
-
-        ${data.reward}
-
-        <br><br>
-
-        ${data.cost} RP deducted.
-
-        <br>
-
-        Remaining balance:
-        ${data.remaining_points} RP
-        `
+        "REWARD REDEEMED // " +
+        reward.name
     );
 
 }
 
 
-/* =========================
+/* =========================================================
    LOAD HISTORY
-========================= */
+========================================================= */
 
 async function loadHistory() {
 
-
-    if (!player) return;
-
-
-    const { data, error } =
-        await supabaseClient
+    const {
+        data,
+        error
+    } = await supabaseClient
 
         .from("point_history")
 
-        .select(
-            "amount, reason, created_at"
-        )
+        .select("*")
 
         .eq(
             "player_id",
-            player.id
+            currentPlayer.id
         )
 
         .order(
@@ -1082,153 +1582,342 @@ async function loadHistory() {
             {
                 ascending: false
             }
-        )
-
-        .limit(30);
+        );
 
 
     if (error) {
 
         console.error(error);
 
-        document
-            .getElementById("history")
-            .innerHTML =
-            "<div class='loading'>ERROR LOADING HISTORY.</div>";
+        document.getElementById(
+            "historyList"
+        ).innerHTML = `
+            <div style="color:#ff4f87;font-size:11px;">
+                ERROR LOADING HISTORY
+            </div>
+        `;
 
         return;
+
     }
 
 
-    const container =
+    /*
+       Hide old ADMIN TEST entries.
+       They remain in Supabase until manually deleted,
+       but TOMI will not see them.
+    */
+
+    const visibleHistory =
+        (data || []).filter(item => {
+
+            return !(
+                item.reason &&
+                item.reason
+                    .toUpperCase()
+                    .includes("ADMIN TEST")
+            );
+
+        });
+
+
+    renderHistory(
+        visibleHistory
+    );
+
+}
+
+
+/* =========================================================
+   RENDER HISTORY
+========================================================= */
+
+function renderHistory(
+    history
+) {
+
+    const list =
         document.getElementById(
-            "history"
+            "historyList"
         );
 
 
-    container.innerHTML = "";
+    if (!history.length) {
 
-
-    if (
-        !data ||
-        data.length === 0
-    ) {
-
-        container.innerHTML =
-            "<div class='loading'>NO QUEST DATA YET.</div>";
+        list.innerHTML = `
+            <div style="color:#777;font-size:11px;">
+                NO HISTORY YET
+            </div>
+        `;
 
         return;
+
     }
 
 
-    data.forEach(
-        item => {
+    list.innerHTML =
+        history.map(item => {
+
+            const positive =
+                item.amount > 0;
 
 
-            const div =
-                document.createElement(
-                    "div"
-                );
+            const amount =
+                positive
+                ? "+" + item.amount
+                : item.amount;
 
 
-            div.className =
-                "history-item";
+            return `
 
+                <div class="history-item">
 
-            const sign =
-                item.amount > 0
-                ? "+"
-                : "";
+                    <div class="history-reason">
+                        ${escapeHtml(
+                            item.reason || ""
+                        )}
+                    </div>
 
-
-            div.innerHTML = `
-
-                <div class="amount">
-
-                    ${sign}
-                    ${item.amount}
-                    RP
-
-                </div>
-
-                <div class="reason">
-
-                    ${item.reason}
+                    <div
+                        class="
+                            history-amount
+                            ${
+                                positive
+                                ? "history-positive"
+                                : "history-negative"
+                            }
+                        "
+                    >
+                        ${amount} RP
+                    </div>
 
                 </div>
 
             `;
 
-
-            container.appendChild(
-                div
-            );
-
-        }
-    );
+        }).join("");
 
 }
 
 
-/* =========================
-   ADD POINTS
-========================= */
+/* =========================================================
+   SYSTEM ACCESS TOGGLE
+========================================================= */
 
-async function addPoints(
-    amount
-) {
+function toggleLogin() {
 
-
-    const reasonInput =
+    const panel =
         document.getElementById(
-            "pointReason"
+            "loginPanel"
         );
 
 
-    let reason =
-        reasonInput.value.trim();
+    if (
+        panel.style.display ===
+        "block"
+    ) {
+
+        panel.style.display =
+            "none";
+
+    } else {
+
+        panel.style.display =
+            "block";
+
+    }
+
+}
 
 
-    if (!reason) {
+/* =========================================================
+   ROMA LOGIN
+========================================================= */
 
-        reason =
-            "ROMA AWARD";
+async function loginRoma() {
+
+    const email =
+        document.getElementById(
+            "loginEmail"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+
+    if (!email || !password) {
+
+        showMessage(
+            "ENTER EMAIL AND PASSWORD"
+        );
+
+        return;
 
     }
 
 
-    await awardPoints(
-        amount,
-        reason
+    const {
+        data,
+        error
+    } = await supabaseClient.auth
+        .signInWithPassword({
+            email: email,
+            password: password
+        });
+
+
+    if (error) {
+
+        console.error(error);
+
+        showMessage(
+            "LOGIN FAILED"
+        );
+
+        return;
+
+    }
+
+
+    if (data.session) {
+
+        showAdminPanel();
+
+        showMessage(
+            "ROMA ACCESS GRANTED"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SHOW ADMIN
+========================================================= */
+
+function showAdminPanel() {
+
+    document.getElementById(
+        "adminPanel"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "loginPanel"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "adminPanel"
+    ).scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+/* =========================================================
+   HIDE ADMIN
+========================================================= */
+
+function hideAdminPanel() {
+
+    document.getElementById(
+        "adminPanel"
+    ).style.display = "none";
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logoutRoma() {
+
+    await supabaseClient.auth.signOut();
+
+    hideAdminPanel();
+
+    showMessage(
+        "ROMA LOGGED OUT"
     );
 
 }
 
 
-/* =========================
-   CUSTOM POINTS
-========================= */
+/* =========================================================
+   CHECK SESSION
+========================================================= */
+
+async function checkRomaSession() {
+
+    const {
+        data
+    } = await supabaseClient.auth
+        .getSession();
+
+
+    if (
+        data &&
+        data.session
+    ) {
+
+        showAdminPanel();
+
+    } else {
+
+        hideAdminPanel();
+
+    }
+
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+    (event, session) => {
+
+        if (session) {
+
+            showAdminPanel();
+
+        } else {
+
+            hideAdminPanel();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ADD CUSTOM POINTS
+========================================================= */
 
 async function addCustomPoints() {
 
-
     const amount =
         parseInt(
-            document
-                .getElementById(
-                    "customAmount"
-                )
-                .value
+            document.getElementById(
+                "customAmount"
+            ).value
         );
 
 
     const reason =
-        document
-            .getElementById(
-                "pointReason"
-            )
-            .value
-            .trim();
+        document.getElementById(
+            "customReason"
+        ).value.trim();
 
 
     if (
@@ -1237,20 +1926,22 @@ async function addCustomPoints() {
     ) {
 
         showMessage(
-            "INVALID RP AMOUNT."
+            "INVALID POINT AMOUNT"
         );
 
         return;
+
     }
 
 
     if (!reason) {
 
         showMessage(
-            "PLEASE ENTER A REASON."
+            "ENTER A REASON"
         );
 
         return;
+
     }
 
 
@@ -1259,39 +1950,58 @@ async function addCustomPoints() {
         reason
     );
 
+
+    document.getElementById(
+        "customAmount"
+    ).value = "";
+
+
+    document.getElementById(
+        "customReason"
+    ).value = "";
+
 }
 
 
-/* =========================
+/* =========================================================
    AWARD POINTS
-========================= */
+========================================================= */
 
 async function awardPoints(
     amount,
     reason
 ) {
 
+    const {
+        data: sessionData
+    } = await supabaseClient.auth
+        .getSession();
 
-    const confirmed =
-        confirm(
-            `Award ${amount} RP to Tomi?`
+
+    if (
+        !sessionData ||
+        !sessionData.session
+    ) {
+
+        showMessage(
+            "ROMA LOGIN REQUIRED"
         );
 
+        return;
 
-    if (!confirmed) return;
+    }
 
 
-    const { data, error } =
-        await supabaseClient.rpc(
-            "add_points",
-            {
-                p_amount:
-                    amount,
-
-                p_reason:
-                    reason
-            }
-        );
+    const {
+        data,
+        error
+    } = await supabaseClient.rpc(
+        "add_points",
+        {
+            p_amount: amount,
+            p_reason: reason
+        }
+    );
 
 
     if (error) {
@@ -1299,123 +2009,105 @@ async function awardPoints(
         console.error(error);
 
         showMessage(
-            "ADMIN ERROR: " +
-            error.message
+            error.message ||
+            "COULD NOT ADD POINTS"
         );
 
         return;
+
     }
 
 
-    if (
-        !data ||
-        !data.success
-    ) {
-
-        showMessage(
-            "POINT AWARD FAILED."
-        );
-
-        return;
-    }
-
-
-    player.points =
+    currentPlayer.points =
         data.new_balance;
 
 
     updatePoints();
 
-
     renderRewards();
-
 
     await loadHistory();
 
 
     showMessage(
-        `
-        +${amount} RP AWARDED.
-
-        <br><br>
-
-        Reason:
-        ${reason}
-
-        <br><br>
-
-        New balance:
-        ${data.new_balance} RP
-        `
+        "+" +
+        amount +
+        " RP AWARDED"
     );
-
-
-    document
-        .getElementById(
-            "customAmount"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "pointReason"
-        )
-        .value = "";
 
 }
 
 
-/* =========================
-   SYSTEM MESSAGE
-========================= */
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
 
-function showMessage(
-    text
+function escapeHtml(
+    value
 ) {
 
+    if (value === null ||
+        value === undefined) {
 
-    const box =
-        document.getElementById(
-            "message"
-        );
+        return "";
+
+    }
 
 
-    document
-        .getElementById(
-            "messageText"
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
         )
-        .innerHTML =
-        text;
-
-
-    box.classList.add(
-        "show"
-    );
-
-
-    setTimeout(
-        () => {
-
-            box.classList.remove(
-                "show"
-            );
-
-        },
-        5000
-    );
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 
-/* =========================
+/* =========================================================
+   START APPLICATION
+========================================================= */
+
+async function startApp() {
+
+    await loadPlayer();
+
+    await loadRewards();
+
+    if (currentPlayer) {
+
+        await loadHistory();
+
+    }
+
+    await checkRomaSession();
+
+}
+
+
+/* =========================================================
    START
-========================= */
+========================================================= */
 
-loadPlayer();
-
+startApp();
 
 </script>
 
 </body>
 </html>
+```
